@@ -1,0 +1,15 @@
+Debug/
+ipch/
+x64/
+sfmltest/Debug/
+sfmltest/x64/
+
+
+
+
+sfmltest.sdf
+sfmltest.sln
+*.dll
+*.vcxproj
+*.vcxproj.filters
+sfmltest.v12.suo
