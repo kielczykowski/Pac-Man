@@ -10,11 +10,19 @@ private:
 	sf::Font font; 
 
 	sf::View menuView;
+	//sf::Vector2f wordlPos;
 
 public:
 	MenuWindow(sf::RenderWindow &window);
 	~MenuWindow();
 
+	void moveUp();
+	void moveDown();
+
 	void draw(sf::RenderWindow& window);
+	void setStatus(sf::RenderWindow& window);	//setting which option is chosen
+	int getStatus();	//getting chosen element id 
+	void checkStatus(sf::RenderWindow&window, sf::Event& event);	//event handling
+
 };
 

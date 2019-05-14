@@ -12,3 +12,8 @@
 
 #define BACKGROUND_MENU_WIDTH 3592
 #define BACKGROUND_MENU_HEIGHT 2612
+
+//MenuWindow
+//Every time window gets resized, graphically it works, but global bounds are dependent from code-set HEIGHT and Position
+//Reconsider steering by keyboard and setting resizable window as false (future gameplay issues :( )
+//FULLSCREEN IS REMEDY!
