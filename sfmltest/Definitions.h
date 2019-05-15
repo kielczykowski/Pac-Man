@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <typeinfo>
+#include <cmath>
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 700
@@ -17,3 +18,6 @@
 //Every time window gets resized, graphically it works, but global bounds are dependent from code-set HEIGHT and Position
 //Reconsider steering by keyboard and setting resizable window as false (future gameplay issues :( )
 //FULLSCREEN IS REMEDY!
+
+//GameObject
+//consider making sf::texture bodytexture static for all Player and Enemy objects

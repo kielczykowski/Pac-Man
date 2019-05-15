@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "MenuWindow.h"
+#include "Player.h"
 
 
 
@@ -10,7 +10,7 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	sf::RenderWindow window(sf::VideoMode(600, 600), "Window",sf::Style::Fullscreen);
+
 	//sf::Texture background_texture;
 	//sf::Sprite background;
 	//sf::View menuView(sf::FloatRect(0, 0, BACKGROUND_MENU_WIDTH, BACKGROUND_MENU_HEIGHT));
@@ -35,7 +35,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//window.setView(menuView);
 	//window.setFramerateLimit(60);
 
-	MenuWindow menu(window);
+
 	//const sf::String s = "XD";
 	//sf::Font font;
 	//font.loadFromFile(FONT_PATH);
@@ -54,26 +54,33 @@ int _tmain(int argc, _TCHAR* argv[])
 	//txtshape.setOutlineColor(sf::Color::Red);
 	//txtshape.setOutlineThickness(1.f);
 
-
-
-
-
-
-
 	//sf::CircleShape shape(100.f);
 	//shape.setFillColor(sf::Color::Green);
+
+
+	sf::RenderWindow window(sf::VideoMode(600, 600), "Window");//, sf::Style::Fullscreen);
+	MenuWindow menu(window);
+
 	sf::Event event;
+	Player pl(window, "./sprites/player.png",sf::Vector2f(150.f,150.f));
 
 	while (window.isOpen())
 	{
 		//window.draw(shape);
-
-		menu.draw(window);
-		menu.setStatus(window);
 		//window.draw(text);
 		//window.draw(shape);
 		//window.draw(txtshape);
-		menu.checkStatus(window, event);
+
+		//Menu Window test
+		//menu.draw(window);
+		//menu.setStatus(window);
+		//menu.checkStatus(window, event);
+
+		//Player test
+		window.clear();
+		pl.update(window,event);
+		pl.draw(window);
+
 
 		window.display();
 	}

@@ -14,7 +14,7 @@ MenuWindow::MenuWindow(sf::RenderWindow &window)
 
 	background_texture.setSmooth(true);
 	background.setColor(sf::Color::Magenta);
-	//background.setTexture(background_texture);
+	background.setTexture(background_texture);
 	//background.setColor(sf::Color(255, 255, 255, 200));
 
 
