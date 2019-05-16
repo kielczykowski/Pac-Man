@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "Player.h"
+#include "Map.h"
 
 
 
@@ -58,11 +58,22 @@ int _tmain(int argc, _TCHAR* argv[])
 	//shape.setFillColor(sf::Color::Green);
 
 
-	sf::RenderWindow window(sf::VideoMode(600, 600), "Window");//, sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(600, 600), "Window", sf::Style::Fullscreen);
 	MenuWindow menu(window);
+	/*Map o1 = Map(window, sf::Vector2f(0, 0), sf::Vector2f(750, 50));*/
+	std::vector<Map> map = Map::stage1(window);
+
+	////!!!!!!!!!!!!!!!niekoniecznie to stosowac, albo znalezc fajne t³o xd
+	sf::Texture gameBackgroundTexture;
+	assert(gameBackgroundTexture.loadFromFile("./sprites/game_background.png"));
+	gameBackgroundTexture.setRepeated(true);
+	sf::Sprite gameBackground;
+	gameBackground.setColor(sf::Color::Blue);
+	gameBackground.setTexture(gameBackgroundTexture);
+	gameBackground.setTextureRect(sf::IntRect(0, 0, 2000, 1090));
 
 	sf::Event event;
-	Player pl(window, "./sprites/player.png",sf::Vector2f(150.f,150.f));
+	Player pl(window, "./sprites/player.png",sf::Vector2f(MAP_OFFSET_X + 9 * MAP_PIXELS_SIZE,MAP_OFFSET_Y + 14 * MAP_PIXELS_SIZE));
 
 	while (window.isOpen())
 	{
@@ -78,8 +89,14 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		//Player test
 		window.clear();
+		window.draw(gameBackground);
+		for (auto& obj : map) {
+			obj.draw(window);
+		}
 		pl.update(window,event);
+		
 		pl.draw(window);
+
 
 
 		window.display();

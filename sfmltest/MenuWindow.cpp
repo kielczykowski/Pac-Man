@@ -10,7 +10,7 @@ MenuWindow::MenuWindow(sf::RenderWindow &window)
 
 	//sf::Vector2f wordlPos = window.mapPixelToCoords(sf::Vector2i(window.getSize().x,window.getSize().y));
 
-	assert(background_texture.loadFromFile("./sprites/background.jpg"));
+	assert(background_texture.loadFromFile("./sprites/backgroundXD.png"));
 
 	background_texture.setSmooth(true);
 	background.setColor(sf::Color::Magenta);

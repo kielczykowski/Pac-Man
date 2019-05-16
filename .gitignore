@@ -3,6 +3,7 @@ ipch/
 x64/
 sfmltest/Debug/
 sfmltest/x64/
+smfltest/sprites/
 
 
 
@@ -12,4 +13,6 @@ sfmltest.sln
 *.dll
 *.vcxproj
 *.vcxproj.filters
+*.jpg
+*.png
 sfmltest.v12.suo
