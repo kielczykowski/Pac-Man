@@ -1,5 +1,5 @@
 #pragma once
-#include "Player.h"
+#include "MenuWindow.h"
 class Map
 {
 private:
@@ -10,5 +10,7 @@ public:
 	~Map();
 	void draw(sf::RenderWindow& window);
 	static std::vector<Map> stage1(sf::RenderWindow& window);
+
+	sf::RectangleShape getShape();
 };
 

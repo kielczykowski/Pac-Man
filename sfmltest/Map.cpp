@@ -64,3 +64,7 @@ std::vector<Map> Map::stage1(sf::RenderWindow& window) {
 
 	return objects;
 }
+
+sf::RectangleShape Map::getShape(){
+	return this->shape;
+}
