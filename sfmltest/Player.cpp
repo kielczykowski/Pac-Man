@@ -20,57 +20,105 @@ Player::~Player()
 }
 
 void Player::update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>& map){
+	//checking possibilities for player to move
+	bool canUp = checkUp(map);
+	bool canDown = checkDown(map);
+	bool canLeft = checkLeft(map);
+	bool canRight = checkRight(map);
 	while (window.pollEvent(event)) {
 		switch (event.type) {
 		case sf::Event::KeyPressed:
 			switch (event.key.code) {
 			case sf::Keyboard::Up:
-				if (checkUp(map)){
+				if (canUp){
 					setmoveUp();
 					wantUpwards = false;
+					wantDownwards = false;
+					wantRight = false;
+					wantLeft = false;
 				}
 				else {
 					wantUpwards = true;
 					wantDownwards = false;
+					wantRight = false;
+					wantLeft = false;
 				}
 				break;
 
 			case sf::Keyboard::Down:
-				if (checkDown(map)) {
+				if (canDown) {
 					setmoveDown();
 					wantDownwards = false;
+					wantUpwards = false;
+					wantRight = false;
+					wantLeft = false;
 				}
 				else {
 					wantDownwards = true;
 					wantUpwards = false;
+					wantRight = false;
+					wantLeft = false;
 				}
 				break;
 
 			case sf::Keyboard::Left:
-				if (checkLeft(map)) {
+				if (canLeft) {
 					setmoveLeft();
 					wantLeft = false;
+					wantRight = false;
+					wantUpwards = false;
+					wantDownwards = false;
 				}
 				else {
 					wantLeft = true;
 					wantRight = false;
+					wantUpwards = false;
+					wantDownwards = false;
 				}
 				break;
 
 			case sf::Keyboard::Right:
-				if (checkRight(map)) {
+				if (canRight) {
 					setmoveRight();
 					wantRight = false;
+					wantLeft = false;
+					wantUpwards = false;
+					wantDownwards = false;
 				}
 				else {
 					wantRight = true;
 					wantLeft = false;
+					wantUpwards = false;
+					wantDownwards = false;
 				}
+				break;
+			case sf::Keyboard::Escape:
+				window.close();
 				break;
 			}
 		}
 
 	}
+
+	//moving 
+	if (canUp && wantUpwards) {
+		setmoveUp();
+		wantUpwards = false;
+	}
+	else if (canDown && wantDownwards) {
+		setmoveDown();
+		wantDownwards = false;
+	}
+	else if (canLeft && wantLeft) {
+		setmoveLeft();
+		wantLeft = false;
+	}
+	else if (canRight && wantRight) {
+		setmoveRight();
+		wantRight = false;
+	}
+	else {}
+
 	this->body.move(speedx, speedy);
 }
 

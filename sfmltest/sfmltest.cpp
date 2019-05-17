@@ -96,7 +96,7 @@ int _tmain(int argc, _TCHAR* argv[])
 				pl.stop();
 		}
 		pl.update(window,event,map);
-		pl.getStates();
+		//pl.getStates();
 		
 		pl.draw(window);
 

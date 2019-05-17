@@ -15,7 +15,7 @@
 #define BACKGROUND_MENU_HEIGHT 2612
 
 #define MAP_PIXELS_SIZE 50
-#define MAP_OFFSET_X 450//offsety po³o¿enia planszy na ekranie
+#define MAP_OFFSET_X 450	//offsety po³o¿enia planszy na ekranie
 #define MAP_OFFSET_Y 75
 
 //MenuWindow
@@ -25,3 +25,5 @@
 
 //GameObject
 //consider making sf::texture bodytexture static for all Player and Enemy objects
+
+//consider using non-frame dependent gameplay
