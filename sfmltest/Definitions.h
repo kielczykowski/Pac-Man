@@ -27,3 +27,5 @@
 //consider making sf::texture bodytexture static for all Player and Enemy objects
 
 //consider using non-frame dependent gameplay
+
+//class Point -> NormalPoint, SpecialPoint(special will have enums with powers

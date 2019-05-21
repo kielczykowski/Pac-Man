@@ -2,7 +2,8 @@
 //
 
 #include "stdafx.h"
-#include "Player.h"
+#include "Point.h"
+#include <windows.h>
 
 
 
@@ -62,6 +63,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	MenuWindow menu(window);
 	/*Map o1 = Map(window, sf::Vector2f(0, 0), sf::Vector2f(750, 50));*/
 	std::vector<Map> map = Map::stage1(window);
+	std::vector<Point> points = Point::stage1();
 
 	////!!!!!!!!!!!!!!!niekoniecznie to stosowac, albo znalezc fajne t³o xd
 	//sf::Texture gameBackgroundTexture;
@@ -75,8 +77,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	sf::Event event;
 	Player pl(window, "./sprites/player.png",sf::Vector2f(MAP_OFFSET_X + 9 * MAP_PIXELS_SIZE,MAP_OFFSET_Y + 14 * MAP_PIXELS_SIZE));
 
+	sf::Clock clock;
+	//sf::Time accumulator = sf::Time::Zero;
+	//sf::Time ups = sf::seconds(1.f / 60.f);
+	float delta=0.0015f;
+	float nextTime = clock.getElapsedTime().asSeconds();
 	while (window.isOpen())
 	{
+
+		
 		//window.draw(shape);
 		//window.draw(text);
 		//window.draw(shape);
@@ -88,21 +97,40 @@ int _tmain(int argc, _TCHAR* argv[])
 		//menu.checkStatus(window, event);
 
 		//Player test
-		window.clear();
-		//window.draw(gameBackground);
-		for (auto& obj : map) {
-			obj.draw(window);
-			if (pl.doesCollide(obj.getShape()))
-				pl.stop();
+		float currTime = clock.getElapsedTime().asSeconds();
+		if (currTime >= nextTime) {
+			nextTime += delta;
+			window.clear();
+			//window.draw(gameBackground);
+			
+			for (auto& obj : map) {
+				obj.draw(window);
+				if (pl.doesCollide(obj.getShape()))
+					pl.stop();
+			}
+			for (auto& obj : points) {
+				obj.draw(window);
+			}
+			pl.update(window, event, map);
+			//pl.getStates();
+
+			pl.draw(window);
 		}
-		pl.update(window,event,map);
-		//pl.getStates();
-		
-		pl.draw(window);
+		else{
+			int sleepTime = (int)(1000.0 * (nextTime - currTime));
+			if (sleepTime > 0) {
+				Sleep(sleepTime);
+			}
+		}
+
+		//while (accumulator > ups) {
+		//	accumulator -= ups;
+		//}
 
 
 
 		window.display();
+//		accumulator += clock.restart();
 	}
 
 	return 0;
