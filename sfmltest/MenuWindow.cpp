@@ -97,7 +97,7 @@ int MenuWindow::getStatus() {
 	return -1;
 }
 
-void MenuWindow::checkStatus(sf::RenderWindow&window, sf::Event& event) {
+void MenuWindow::checkStatus(sf::RenderWindow&window, sf::Event& event, GameMaster& game) {
 	while (window.pollEvent(event)) {
 		switch (event.type) {
 		case sf::Event::MouseButtonPressed:
@@ -106,6 +106,7 @@ void MenuWindow::checkStatus(sf::RenderWindow&window, sf::Event& event) {
 				switch (getStatus()) {
 				case 0:
 					std::cout << "Play" << std::endl;
+					game.main(window,event);
 					break;
 				case 1:
 					std::cout << "Highscore" << std::endl;

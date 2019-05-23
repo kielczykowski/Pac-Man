@@ -20,6 +20,7 @@ Player::~Player()
 }
 
 void Player::update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>& map){
+	
 	//checking possibilities for player to move
 	bool canUp = checkUp(map);
 	bool canDown = checkDown(map);
@@ -92,9 +93,9 @@ void Player::update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>
 					wantDownwards = false;
 				}
 				break;
-			case sf::Keyboard::Escape:
-				window.close();
-				break;
+			//case sf::Keyboard::Escape:
+			//	window.close();
+			//	break;
 			}
 		}
 

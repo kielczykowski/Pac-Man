@@ -1,5 +1,5 @@
 #pragma once
-#include "Definitions.h"
+#include "GameMaster.h"
 //Add mouse/keyboard navigation functionality
 class MenuWindow
 {
@@ -22,7 +22,7 @@ public:
 	void draw(sf::RenderWindow& window);
 	void setStatus(sf::RenderWindow& window);							//setting which option is chosen
 	int	getStatus();													//getting chosen element id 
-	void checkStatus(sf::RenderWindow&window, sf::Event& event);		//event handling
+	void checkStatus(sf::RenderWindow&window, sf::Event& event, GameMaster& game);		//event handling
 
 };
 

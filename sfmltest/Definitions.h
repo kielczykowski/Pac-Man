@@ -6,6 +6,7 @@
 #include <typeinfo>
 #include <cmath>
 #include <memory>
+#include <windows.h>
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 700
@@ -40,3 +41,6 @@ enum class SpecialPower {
 //consider using non-frame dependent gameplay
 
 //class Point -> NormalPoint, SpecialPoint(special will have enums with powers
+
+//LOOPS
+//wyci¹gn¹æ logikê playera do GameMastera, dorobiæ gettery settery do Playera i w ten sposób robiæ obs³ugê eventów bo inaczej escape dzia³a po 15 sekundach w tych petlach XDXDDX

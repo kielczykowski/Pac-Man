@@ -1,5 +1,5 @@
 #pragma once
-#include "MenuWindow.h"
+#include "Definitions.h"
 class Map
 {
 private:
