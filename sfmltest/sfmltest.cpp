@@ -58,12 +58,33 @@ int _tmain(int argc, _TCHAR* argv[])
 	//sf::CircleShape shape(100.f);
 	//shape.setFillColor(sf::Color::Green);
 
+	//sf::CircleShape square(80, 4);
+	//square.setFillColor(sf::Color::Blue);
+	//square.setPosition(150, 150);
+	////square.setOrigin(40.f, 40.f);
+	//square.rotate(45.f);
+
 
 	sf::RenderWindow window(sf::VideoMode(600, 600), "Window", sf::Style::Fullscreen);
 	MenuWindow menu(window);
 	/*Map o1 = Map(window, sf::Vector2f(0, 0), sf::Vector2f(750, 50));*/
 	std::vector<Map> map = Map::stage1(window);
 	std::vector<Point> points = Point::stage1();
+
+	//mask for teleport
+	std::vector<Map> mask{		Map(window, sf::Vector2f(17 * MAP_PIXELS_SIZE, 9 * MAP_PIXELS_SIZE), sf::Vector2f(2 * MAP_PIXELS_SIZE, MAP_PIXELS_SIZE), sf::Color::Magenta),
+								Map(window, sf::Vector2f(0, 9 * MAP_PIXELS_SIZE), sf::Vector2f(2 * MAP_PIXELS_SIZE, MAP_PIXELS_SIZE), sf::Color::Magenta) };
+
+	//teleport 
+	std::vector<Map> teleport{	Map(window, sf::Vector2f(-1 * MAP_PIXELS_SIZE, 9 * MAP_PIXELS_SIZE), sf::Vector2f(MAP_PIXELS_SIZE, MAP_PIXELS_SIZE), sf::Color::White),
+								Map(window, sf::Vector2f(19 * MAP_PIXELS_SIZE, 9 * MAP_PIXELS_SIZE), sf::Vector2f(MAP_PIXELS_SIZE, MAP_PIXELS_SIZE), sf::Color::White) };
+
+
+	if (points[points.size() - 1].getPower() == SpecialPower::SLOW_EAT_ENEMY) {
+		std::cout << " ZAJEBISCIE" << std::endl;
+	}
+
+	//SpecialPoint sp = SpecialPoint(sf::Vector2f(150, 150));
 
 	////!!!!!!!!!!!!!!!niekoniecznie to stosowac, albo znalezc fajne t³o xd
 	//sf::Texture gameBackgroundTexture;
@@ -102,12 +123,26 @@ int _tmain(int argc, _TCHAR* argv[])
 			nextTime += delta;
 			window.clear();
 			//window.draw(gameBackground);
+
 			
+			//map drawing
 			for (auto& obj : map) {
 				obj.draw(window);
 				if (pl.doesCollide(obj.getShape()))
 					pl.stop();
 			}
+
+			//teleport handling
+			if (pl.doesCollide(teleport[0].getShape())){
+				pl.setPosition(18.f, 9.f);
+				pl.setmoveLeft();
+			}
+			else if (pl.doesCollide(teleport[1].getShape())) {
+				pl.setPosition(0.f, 9.f);
+				pl.setmoveRight();
+			}
+
+			//points on canvas + handling
 			for (auto it = points.begin(); it < points.end();) {
 
 				if (pl.doesCollide(it->getShape())) {
@@ -120,10 +155,17 @@ int _tmain(int argc, _TCHAR* argv[])
 				}
 
 			}
+			//player actions
+
+
+			//sp.draw(window);
 			pl.update(window, event, map);
 			//pl.getStates();
 
 			pl.draw(window);
+			//Mask for teleport
+			mask[0].draw(window);
+			mask[1].draw(window);
 		}
 		else{
 			int sleepTime = (int)(1000.0 * (nextTime - currTime));

@@ -211,6 +211,10 @@ bool Player::doesCollide(sf::CircleShape& shape){
 	return body.getGlobalBounds().intersects(shape.getGlobalBounds());
 }
 
+void Player::setPosition(float x, float y){
+	body.setPosition(sf::Vector2f(x * MAP_PIXELS_SIZE + MAP_OFFSET_X, y * MAP_PIXELS_SIZE + MAP_OFFSET_Y));
+}
+
 void Player::checkMovementPossibility(sf::RectangleShape& shape){
 	sf::FloatRect boundries = body.getGlobalBounds();
 	//boundries.

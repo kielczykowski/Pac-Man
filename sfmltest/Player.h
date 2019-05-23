@@ -32,6 +32,7 @@ public:
 	void getStates();
 
 	void stop();
+	void setPosition(float x, float y);
 	bool doesCollide(sf::RectangleShape& shape);
 	bool doesCollide(sf::CircleShape& shape);
 

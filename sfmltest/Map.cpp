@@ -61,6 +61,7 @@ std::vector<Map> Map::stage1(sf::RenderWindow& window) {
 	objects.push_back(Map(window, sf::Vector2f(10 * MAP_PIXELS_SIZE, 14 * MAP_PIXELS_SIZE), sf::Vector2f(3 * MAP_PIXELS_SIZE, 3 * MAP_PIXELS_SIZE)));
 	objects.push_back(Map(window, sf::Vector2f(9 * MAP_PIXELS_SIZE, 15 * MAP_PIXELS_SIZE), sf::Vector2f( MAP_PIXELS_SIZE, 2 * MAP_PIXELS_SIZE)));
 
+	
 
 	return objects;
 }

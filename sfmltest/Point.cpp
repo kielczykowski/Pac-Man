@@ -2,13 +2,14 @@
 #include "Point.h"
 
 
-Point::Point(sf::Vector2f& position, const sf::Color& color)
+Point::Point(sf::Vector2f& position, const SpecialPower& pow, const sf::Color& color)
 {
 	position.x = position.x + MAP_OFFSET_X + 0.25f * MAP_PIXELS_SIZE;
 	position.y = position.y + MAP_OFFSET_Y + 0.25f * MAP_PIXELS_SIZE;
 	shape.setRadius(0.25f * MAP_PIXELS_SIZE);
 	shape.setPosition(position);
 	shape.setFillColor(color);
+	power = pow;
 }
 
 std::vector<Point> Point::stage1() {
@@ -55,6 +56,11 @@ std::vector<Point> Point::stage1() {
 	objects.push_back(Point(sf::Vector2f(9 * MAP_PIXELS_SIZE, 8 * MAP_PIXELS_SIZE)));
 	objects.push_back(Point(sf::Vector2f(13 * MAP_PIXELS_SIZE, 9 * MAP_PIXELS_SIZE)));
 	objects.push_back(Point(sf::Vector2f(9 * MAP_PIXELS_SIZE, 12 * MAP_PIXELS_SIZE)));
+
+	objects.push_back(Point(sf::Vector2f(3 * MAP_PIXELS_SIZE, 3 * MAP_PIXELS_SIZE),SpecialPower::SLOW_EAT_ENEMY,sf::Color::Blue));
+	objects.push_back(Point(sf::Vector2f(15 * MAP_PIXELS_SIZE, 3 * MAP_PIXELS_SIZE), SpecialPower::SLOW_EAT_ENEMY, sf::Color::Blue));
+	objects.push_back(Point(sf::Vector2f(15 * MAP_PIXELS_SIZE, 15 * MAP_PIXELS_SIZE), SpecialPower::SLOW_EAT_ENEMY, sf::Color::Blue));
+	objects.push_back(Point(sf::Vector2f(3 * MAP_PIXELS_SIZE, 15 * MAP_PIXELS_SIZE), SpecialPower::SLOW_EAT_ENEMY, sf::Color::Blue));
 	
 
 	return objects;
@@ -66,6 +72,10 @@ void Point::draw(sf::RenderWindow& window) {
 
 sf::CircleShape Point::getShape() {
 	return this->shape;
+}
+
+SpecialPower Point::getPower() {
+	return power;
 }
 //
 //

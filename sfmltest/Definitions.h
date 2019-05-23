@@ -5,6 +5,7 @@
 #include <iostream>
 #include <typeinfo>
 #include <cmath>
+#include <memory>
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 700
@@ -17,6 +18,16 @@
 #define MAP_PIXELS_SIZE 50
 #define MAP_OFFSET_X 450	//offsety po³o¿enia planszy na ekranie
 #define MAP_OFFSET_Y 75
+
+enum class SpecialPower {
+	NONE,
+	EAT_ENEMY,
+	SLOW_PLAYER,
+	SLOW_ENEMY,
+	SUPER_SPEED,
+	SHOOT,
+	SLOW_EAT_ENEMY
+};
 
 //MenuWindow
 //Every time window gets resized, graphically it works, but global bounds are dependent from code-set HEIGHT and Position
