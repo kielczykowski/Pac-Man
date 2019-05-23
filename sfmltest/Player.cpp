@@ -157,6 +157,47 @@ void Player::stop() {
 	speedy = 0;
 }
 
+void Player::move(){
+	body.move(speedx, speedy);
+}
+
+void Player::setWantUp(const bool& logic){
+	wantUpwards = logic;
+}
+
+void Player::setWantDown(const bool& logic){
+	wantDownwards = logic;
+}
+
+void Player::setWantLeft(const bool& logic){
+	wantLeft = logic;
+}
+
+void Player::setWantRight(const bool& logic){
+	wantRight = logic;
+}
+
+bool Player::getWantUp(){
+	return wantUpwards;
+}
+bool Player::getWantDown(){
+	return wantDownwards;
+}
+bool Player::getWantLeft(){
+	return wantLeft;
+}
+bool Player::getWantRight(){
+	return wantRight;
+}
+
+float Player::getXSpeed(){
+	return speedx;
+}
+float Player::getYSpeed(){
+	return speedy;
+}
+
+
 bool Player::checkRight(std::vector<Map>& objects) {
 	body.move(speed, 0);
 	for (auto& object : objects) {

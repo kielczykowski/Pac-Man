@@ -13,5 +13,7 @@ public:
 	virtual void update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>& map) = 0;
 	void draw(sf::RenderWindow& window);
 
+	sf::Sprite getBody();
+
 };
 

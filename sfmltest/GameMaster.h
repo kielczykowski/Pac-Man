@@ -1,5 +1,5 @@
 #pragma once
-#include "Point.h"
+#include "GameLogic.h"
 
 class GameMaster
 {

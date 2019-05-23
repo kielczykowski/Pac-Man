@@ -34,15 +34,14 @@ bool GameMaster::isDead(){
 void GameMaster::init(){
 	score = 0;
 	lifes = 3;
-	exit = false;
-	pause = false;
+
 }
 
 bool GameMaster::getPause(){
 	return pause;
 }
 bool GameMaster::getExit(){
-	return score;
+	return exit;
 }
 
 
@@ -79,16 +78,17 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event){
 
 	//initialise game with starting values
 	init();
+	GameLogic logic;
 
 	//loop for framerate-independent gameplay - TODO
 	//float delta = 0.0015f;
 	//float nextTime = clock.getElapsedTime().asSeconds();
 
 	//mainloop
-	while (!exit) {
+	while (!logic.getExit()) {
 		window.clear();
 
-		if (!pause) {
+		if (!logic.getPause()) {
 			//Player test
 			//float currTime = clock.getElapsedTime().asSeconds();
 			//if (currTime >= nextTime) {
@@ -125,6 +125,7 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event){
 
 				//player actions + drawing
 				//pl.update(window, event, map);
+				logic.playerLogic(window, pl, event, map);
 				pl.draw(window);
 
 				// drawing mask for teleport
@@ -142,26 +143,27 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event){
 
 			//do something if pause is clicked ( Display PAUSE, Enter to continue, escape to exit game
 			std::cout << "Przerwa" << std::endl;
-
+			Sleep(3000);
+			logic.setPause(false);
 		}
 
 
-		while (window.pollEvent(event)) {
-			switch (event.type) {
-			case sf::Event::KeyPressed:
-				switch (event.key.code) {
-				case sf::Keyboard::Escape:
-					if (pause == true){
-						exit = true;
-					}
-					else {
-						pause = true;
-					}
-					break;
-				}
-				break;
-			}
-		}
+		//while (window.pollEvent(event)) {
+		//	switch (event.type) {
+		//	case sf::Event::KeyPressed:
+		//		switch (event.key.code) {
+		//		case sf::Keyboard::Escape:
+		//			if (pause == true){
+		//				exit = true;
+		//			}
+		//			else {
+		//				pause = true;
+		//			}
+		//			break;
+		//		}
+		//		break;
+		//	}
+		//}
 
 
 		window.display();

@@ -23,6 +23,19 @@ public:
 	void setmoveLeft();
 	void setmoveRight();
 
+	void setWantUp(const bool& logic);
+	void setWantDown(const bool& logic);
+	void setWantLeft(const bool& logic);
+	void setWantRight( const bool& logic);
+
+	bool getWantUp();
+	bool getWantDown();
+	bool getWantLeft();
+	bool getWantRight();
+
+	float getXSpeed();
+	float getYSpeed();
+
 	void checkMovementPossibility(sf::RectangleShape& shape);
 	bool checkRight(std::vector<Map>& objects);
 	bool checkLeft(std::vector<Map>& objects);
@@ -32,6 +45,7 @@ public:
 	void getStates();
 
 	void stop();
+	void move();
 	void setPosition(float x, float y);
 	bool doesCollide(sf::RectangleShape& shape);
 	bool doesCollide(sf::CircleShape& shape);
