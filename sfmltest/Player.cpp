@@ -207,6 +207,10 @@ bool Player::doesCollide(sf::RectangleShape& shape){
 	return body.getGlobalBounds().intersects(shape.getGlobalBounds());
 }
 
+bool Player::doesCollide(sf::CircleShape& shape){
+	return body.getGlobalBounds().intersects(shape.getGlobalBounds());
+}
+
 void Player::checkMovementPossibility(sf::RectangleShape& shape){
 	sf::FloatRect boundries = body.getGlobalBounds();
 	//boundries.

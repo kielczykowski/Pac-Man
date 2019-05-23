@@ -33,6 +33,7 @@ public:
 
 	void stop();
 	bool doesCollide(sf::RectangleShape& shape);
+	bool doesCollide(sf::CircleShape& shape);
 
 };
 

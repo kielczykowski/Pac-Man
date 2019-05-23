@@ -63,6 +63,10 @@ std::vector<Point> Point::stage1() {
 void Point::draw(sf::RenderWindow& window) {
 	window.draw(shape);
 }
+
+sf::CircleShape Point::getShape() {
+	return this->shape;
+}
 //
 //
 //Point::~Point()

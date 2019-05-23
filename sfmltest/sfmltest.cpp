@@ -108,8 +108,17 @@ int _tmain(int argc, _TCHAR* argv[])
 				if (pl.doesCollide(obj.getShape()))
 					pl.stop();
 			}
-			for (auto& obj : points) {
-				obj.draw(window);
+			for (auto it = points.begin(); it < points.end();) {
+
+				if (pl.doesCollide(it->getShape())) {
+					it = points.erase(it);
+					//add points to player
+				}
+				else {
+					it->draw(window);
+					++it;
+				}
+
 			}
 			pl.update(window, event, map);
 			//pl.getStates();

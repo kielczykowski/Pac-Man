@@ -13,5 +13,6 @@ public:
 	//virtual ~Point();
 	//virtual void update(Player& player);
 	void draw(sf::RenderWindow& window);
+	sf::CircleShape getShape();
 };
 
