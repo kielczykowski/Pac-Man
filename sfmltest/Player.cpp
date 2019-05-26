@@ -5,13 +5,13 @@
 Player::Player(sf::RenderWindow& window, sf::String path, sf::Vector2f& position, float speed) : GameObject(window, path, position)
 {
 	std::cout << "PLEJER" << std::endl;
-	this->speed = speed;
-	this->speedx = 0;
-	this->speedy = 0;
-	wantDownwards = false;
-	wantUpwards = false;
-	wantRight = false;
-	wantLeft = false;
+	this->speed_ = speed;
+	this->speedx_ = 0;
+	this->speedy_ = 0;
+	wantDownwards_ = false;
+	wantUpwards_ = false;
+	wantRight_ = false;
+	wantLeft_ = false;
 }
 
 
@@ -20,7 +20,7 @@ Player::~Player()
 }
 
 void Player::update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>& map){
-	
+
 	//checking possibilities for player to move
 	bool canUp = checkUp(map);
 	bool canDown = checkDown(map);
@@ -33,232 +33,232 @@ void Player::update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>
 			case sf::Keyboard::Up:
 				if (canUp){
 					setmoveUp();
-					wantUpwards = false;
-					wantDownwards = false;
-					wantRight = false;
-					wantLeft = false;
+					wantUpwards_ = false;
+					wantDownwards_ = false;
+					wantRight_ = false;
+					wantLeft_ = false;
 				}
 				else {
-					wantUpwards = true;
-					wantDownwards = false;
-					wantRight = false;
-					wantLeft = false;
+					wantUpwards_ = true;
+					wantDownwards_ = false;
+					wantRight_ = false;
+					wantLeft_ = false;
 				}
 				break;
 
 			case sf::Keyboard::Down:
 				if (canDown) {
 					setmoveDown();
-					wantDownwards = false;
-					wantUpwards = false;
-					wantRight = false;
-					wantLeft = false;
+					wantDownwards_ = false;
+					wantUpwards_ = false;
+					wantRight_ = false;
+					wantLeft_ = false;
 				}
 				else {
-					wantDownwards = true;
-					wantUpwards = false;
-					wantRight = false;
-					wantLeft = false;
+					wantDownwards_ = true;
+					wantUpwards_ = false;
+					wantRight_ = false;
+					wantLeft_ = false;
 				}
 				break;
 
 			case sf::Keyboard::Left:
 				if (canLeft) {
 					setmoveLeft();
-					wantLeft = false;
-					wantRight = false;
-					wantUpwards = false;
-					wantDownwards = false;
+					wantLeft_ = false;
+					wantRight_ = false;
+					wantUpwards_ = false;
+					wantDownwards_ = false;
 				}
 				else {
-					wantLeft = true;
-					wantRight = false;
-					wantUpwards = false;
-					wantDownwards = false;
+					wantLeft_ = true;
+					wantRight_ = false;
+					wantUpwards_ = false;
+					wantDownwards_ = false;
 				}
 				break;
 
 			case sf::Keyboard::Right:
 				if (canRight) {
 					setmoveRight();
-					wantRight = false;
-					wantLeft = false;
-					wantUpwards = false;
-					wantDownwards = false;
+					wantRight_ = false;
+					wantLeft_ = false;
+					wantUpwards_ = false;
+					wantDownwards_ = false;
 				}
 				else {
-					wantRight = true;
-					wantLeft = false;
-					wantUpwards = false;
-					wantDownwards = false;
+					wantRight_ = true;
+					wantLeft_ = false;
+					wantUpwards_ = false;
+					wantDownwards_ = false;
 				}
 				break;
-			//case sf::Keyboard::Escape:
-			//	window.close();
-			//	break;
+				//case sf::Keyboard::Escape:
+				//	window.close();
+				//	break;
 			}
 		}
 
 	}
 
 	//moving 
-	if (canUp && wantUpwards) {
+	if (canUp && wantUpwards_) {
 		setmoveUp();
-		wantUpwards = false;
+		wantUpwards_ = false;
 	}
-	else if (canDown && wantDownwards) {
+	else if (canDown && wantDownwards_) {
 		setmoveDown();
-		wantDownwards = false;
+		wantDownwards_ = false;
 	}
-	else if (canLeft && wantLeft) {
+	else if (canLeft && wantLeft_) {
 		setmoveLeft();
-		wantLeft = false;
+		wantLeft_ = false;
 	}
-	else if (canRight && wantRight) {
+	else if (canRight && wantRight_) {
 		setmoveRight();
-		wantRight = false;
+		wantRight_ = false;
 	}
 	else {}
 
-	this->body.move(speedx, speedy);
+	this->body_.move(speedx_, speedy_);
 }
 
 void Player::getStates() {
 	std::cout << std::endl;
 	std::cout << "stany zmiennych boolean" << std::endl;
-	std::cout << "góra: " << wantUpwards << std::endl;
-	std::cout << "dó³: " << wantDownwards << std::endl;
-	std::cout << "lewo: " << wantLeft << std::endl;
-	std::cout << "prawo: " << wantRight << std::endl;
+	std::cout << "góra: " << wantUpwards_ << std::endl;
+	std::cout << "dó³: " << wantDownwards_ << std::endl;
+	std::cout << "lewo: " << wantLeft_ << std::endl;
+	std::cout << "prawo: " << wantRight_ << std::endl;
 }
 
 void Player::setmoveDown() {
-	speedx = 0;
-	speedy = speed;
+	speedx_ = 0;
+	speedy_ = speed_;
 }
 void Player::setmoveUp() {
-	speedx = 0;
-	speedy = -speed;
+	speedx_ = 0;
+	speedy_ = -speed_;
 }
 
 void Player::setmoveLeft() {
-	speedx =-speed;
-	speedy = 0;
+	speedx_ = -speed_;
+	speedy_ = 0;
 }
 
 void Player::setmoveRight() {
-	speedx = speed;
-	speedy = 0;
+	speedx_ = speed_;
+	speedy_ = 0;
 }
 
 void Player::stop() {
-	body.move(-speedx, -speedy);
-	speedx = 0;
-	speedy = 0;
+	body_.move(-speedx_, -speedy_);
+	speedx_ = 0;
+	speedy_ = 0;
 }
 
 void Player::move(){
-	body.move(speedx, speedy);
+	body_.move(speedx_, speedy_);
 }
 
 void Player::setWantUp(const bool& logic){
-	wantUpwards = logic;
+	wantUpwards_ = logic;
 }
 
 void Player::setWantDown(const bool& logic){
-	wantDownwards = logic;
+	wantDownwards_ = logic;
 }
 
 void Player::setWantLeft(const bool& logic){
-	wantLeft = logic;
+	wantLeft_ = logic;
 }
 
 void Player::setWantRight(const bool& logic){
-	wantRight = logic;
+	wantRight_ = logic;
 }
 
 bool Player::getWantUp(){
-	return wantUpwards;
+	return wantUpwards_;
 }
 bool Player::getWantDown(){
-	return wantDownwards;
+	return wantDownwards_;
 }
 bool Player::getWantLeft(){
-	return wantLeft;
+	return wantLeft_;
 }
 bool Player::getWantRight(){
-	return wantRight;
+	return wantRight_;
 }
 
 float Player::getXSpeed(){
-	return speedx;
+	return speedx_;
 }
 float Player::getYSpeed(){
-	return speedy;
+	return speedy_;
 }
 
 
 bool Player::checkRight(std::vector<Map>& objects) {
-	body.move(speed, 0);
+	body_.move(speed_, 0);
 	for (auto& object : objects) {
-		if (body.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
-			body.move(-speed, 0);
+		if (body_.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
+			body_.move(-speed_, 0);
 			return false;
 		}
 	}
-	body.move(-speed, 0);
+	body_.move(-speed_, 0);
 	return true;
 }
 bool Player::checkLeft(std::vector<Map>& objects) {
-	body.move(-speed, 0);
+	body_.move(-speed_, 0);
 	for (auto& object : objects) {
-		if (body.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
-			body.move(speed, 0);
+		if (body_.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
+			body_.move(speed_, 0);
 			return false;
 		}
 	}
-	body.move(speed, 0);
+	body_.move(speed_, 0);
 	return true;
 }
 
 bool Player::checkUp(std::vector<Map>& objects) {
-	body.move(0,-speed);
+	body_.move(0, -speed_);
 	for (auto& object : objects) {
-		if (body.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
-			body.move(0, speed);
+		if (body_.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
+			body_.move(0, speed_);
 			return false;
 		}
 	}
-	body.move(0, speed);
+	body_.move(0, speed_);
 	return true;
 }
 
 bool Player::checkDown(std::vector<Map>& objects) {
-	body.move(0, speed);
+	body_.move(0, speed_);
 	for (auto& object : objects) {
-		if (body.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
-			body.move(0,-speed);
+		if (body_.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
+			body_.move(0, -speed_);
 			return false;
 		}
 	}
-	body.move(0, -speed);
+	body_.move(0, -speed_);
 	return true;
 }
 
 bool Player::doesCollide(sf::RectangleShape& shape){
-	return body.getGlobalBounds().intersects(shape.getGlobalBounds());
+	return body_.getGlobalBounds().intersects(shape.getGlobalBounds());
 }
 
 bool Player::doesCollide(sf::CircleShape& shape){
-	return body.getGlobalBounds().intersects(shape.getGlobalBounds());
+	return body_.getGlobalBounds().intersects(shape.getGlobalBounds());
 }
 
 void Player::setPosition(float x, float y){
-	body.setPosition(sf::Vector2f(x * MAP_PIXELS_SIZE + MAP_OFFSET_X, y * MAP_PIXELS_SIZE + MAP_OFFSET_Y));
+	body_.setPosition(sf::Vector2f(x * MAP_PIXELS_SIZE + MAP_OFFSET_X, y * MAP_PIXELS_SIZE + MAP_OFFSET_Y));
 }
 
 void Player::checkMovementPossibility(sf::RectangleShape& shape){
-	sf::FloatRect boundries = body.getGlobalBounds();
+	sf::FloatRect boundries = body_.getGlobalBounds();
 	//boundries.
 	//
 

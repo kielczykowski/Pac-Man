@@ -8,17 +8,17 @@
 #include <memory>
 #include <windows.h>
 
-#define SCREEN_WIDTH 1000
-#define SCREEN_HEIGHT 700
+#define SCREEN_WIDTH			1000
+#define SCREEN_HEIGHT			700
 
-#define FONT_PATH "Walk-Around-the-Block.ttf"
+#define FONT_PATH				"Walk-Around-the-Block.ttf"
 
-#define BACKGROUND_MENU_WIDTH 3592
-#define BACKGROUND_MENU_HEIGHT 2612
+#define BACKGROUND_MENU_WIDTH	3592
+#define BACKGROUND_MENU_HEIGHT	2612
 
-#define MAP_PIXELS_SIZE 50
-#define MAP_OFFSET_X 450	//offsety po³o¿enia planszy na ekranie
-#define MAP_OFFSET_Y 75
+#define MAP_PIXELS_SIZE			50
+#define MAP_OFFSET_X			450	//offsety po³o¿enia planszy na ekranie
+#define MAP_OFFSET_Y			75
 
 enum class SpecialPower {
 	NONE,
@@ -44,3 +44,15 @@ enum class SpecialPower {
 
 //LOOPS
 //wyci¹gn¹æ logikê playera do GameMastera, dorobiæ gettery settery do Playera i w ten sposób robiæ obs³ugê eventów bo inaczej escape dzia³a po 15 sekundach w tych petlach XDXDDX
+//still problem, framerate jumps 2 high
+
+//TODO:
+//wyœwietlanie wyniku punktów w trakcie gry
+//stworzenie przeciwników i ich algorytmu
+//opracowanie dzia³ania supermocy Pacmana -> czasowe ustawianie jego mocy 
+//stworzenie rankingu w highscores -> prosta baza danych czy mo¿e plik bitowy
+//kolejne plansze
+//przemyslenie sterowania -> za wolno mieli program
+//framerate-independent gameplay !
+//ogarniêcie problemu View
+//REWIZJA KODU bo do niczego to nie podobne jest XD

@@ -109,7 +109,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	while (window.isOpen())
 	{
 
-		
+
 		//window.draw(shape);
 		//window.draw(text);
 		//window.draw(shape);
@@ -118,73 +118,73 @@ int _tmain(int argc, _TCHAR* argv[])
 		//Menu Window test
 		menu.draw(window);
 		menu.setStatus(window);
-		menu.checkStatus(window, event,game);
+		menu.checkStatus(window, event, game);
 
 		//Player test
-//		float currTime = clock.getElapsedTime().asSeconds();
-//		if (currTime >= nextTime) {
-//			nextTime += delta;
-//			window.clear();
-//			//window.draw(gameBackground);
-//
-//			
-//			//map drawing
-//			for (auto& obj : map) {
-//				obj.draw(window);
-//				if (pl.doesCollide(obj.getShape()))
-//					pl.stop();
-//			}
-//
-//			//teleport handling
-//			if (pl.doesCollide(teleport[0].getShape())){
-//				pl.setPosition(18.f, 9.f);
-//				pl.setmoveLeft();
-//			}
-//			else if (pl.doesCollide(teleport[1].getShape())) {
-//				pl.setPosition(0.f, 9.f);
-//				pl.setmoveRight();
-//			}
-//
-//			//points on canvas + handling
-//			for (auto it = points.begin(); it < points.end();) {
-//
-//				if (pl.doesCollide(it->getShape())) {
-//					it = points.erase(it);
-//					//add points to player
-//				}
-//				else {
-//					it->draw(window);
-//					++it;
-//				}
-//
-//			}
-//			//player actions
-//
-//
-//			//sp.draw(window);
-//			pl.update(window, event, map);
-//			//pl.getStates();
-//
-//			pl.draw(window);
-//			//Mask for teleport
-//			mask[0].draw(window);
-//			mask[1].draw(window);
-//		}
-//		else{
-//			int sleepTime = (int)(1000.0 * (nextTime - currTime));
-//			if (sleepTime > 0) {
-//				Sleep(sleepTime);
-//			}
-//		}
-//
-//		//while (accumulator > ups) {
-//		//	accumulator -= ups;
-//		//}
-//
-//
-//
+		//		float currTime = clock.getElapsedTime().asSeconds();
+		//		if (currTime >= nextTime) {
+		//			nextTime += delta;
+		//			window.clear();
+		//			//window.draw(gameBackground);
+		//
+		//			
+		//			//map drawing
+		//			for (auto& obj : map) {
+		//				obj.draw(window);
+		//				if (pl.doesCollide(obj.getShape()))
+		//					pl.stop();
+		//			}
+		//
+		//			//teleport handling
+		//			if (pl.doesCollide(teleport[0].getShape())){
+		//				pl.setPosition(18.f, 9.f);
+		//				pl.setmoveLeft();
+		//			}
+		//			else if (pl.doesCollide(teleport[1].getShape())) {
+		//				pl.setPosition(0.f, 9.f);
+		//				pl.setmoveRight();
+		//			}
+		//
+		//			//points on canvas + handling
+		//			for (auto it = points.begin(); it < points.end();) {
+		//
+		//				if (pl.doesCollide(it->getShape())) {
+		//					it = points.erase(it);
+		//					//add points to player
+		//				}
+		//				else {
+		//					it->draw(window);
+		//					++it;
+		//				}
+		//
+		//			}
+		//			//player actions
+		//
+		//
+		//			//sp.draw(window);
+		//			pl.update(window, event, map);
+		//			//pl.getStates();
+		//
+		//			pl.draw(window);
+		//			//Mask for teleport
+		//			mask[0].draw(window);
+		//			mask[1].draw(window);
+		//		}
+		//		else{
+		//			int sleepTime = (int)(1000.0 * (nextTime - currTime));
+		//			if (sleepTime > 0) {
+		//				Sleep(sleepTime);
+		//			}
+		//		}
+		//
+		//		//while (accumulator > ups) {
+		//		//	accumulator -= ups;
+		//		//}
+		//
+		//
+		//
 		window.display();
-////		accumulator += clock.restart();
+		////		accumulator += clock.restart();
 	}
 
 	return 0;

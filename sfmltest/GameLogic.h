@@ -4,8 +4,8 @@
 class GameLogic
 {
 private:
-	bool pause;
-	bool exit;
+	bool pause_;
+	bool exit_;
 public:
 	GameLogic();
 	~GameLogic();

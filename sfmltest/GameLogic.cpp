@@ -78,11 +78,11 @@ void GameLogic::playerLogic(sf::RenderWindow& window, Player& player, sf::Event&
 				}
 				break;
 			case sf::Keyboard::Escape:
-				if (pause == true){
-					exit = true;
+				if (pause_ == true){
+					exit_ = true;
 				}
 				else {
-					pause = true;
+					pause_ = true;
 				}
 				break;
 				//case sf::Keyboard::Escape:
@@ -119,23 +119,23 @@ void GameLogic::playerLogic(sf::RenderWindow& window, Player& player, sf::Event&
 }
 
 bool GameLogic::getPause(){
-	return pause;
+	return pause_;
 }
 bool GameLogic::getExit(){
-	return exit;
+	return exit_;
 }
 void GameLogic::setPause(bool logic){
-	pause = logic;
+	pause_ = logic;
 }
 void GameLogic::setExit(bool logic){
-	exit = logic;
+	exit_ = logic;
 }
 
 
 GameLogic::GameLogic()
 {
-	pause = false;
-	exit = false;
+	pause_ = false;
+	exit_ = false;
 }
 
 

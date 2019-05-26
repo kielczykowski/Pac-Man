@@ -3,17 +3,20 @@
 class GameObject
 {
 protected:
-	sf::Sprite body;
-	sf::Texture bodytexture;
-
+	sf::Sprite	body_;
+	sf::Texture	bodytexture_;
 
 public:
+
 	GameObject(sf::RenderWindow& window, sf::String path,sf::Vector2f& position);
 	virtual ~GameObject();
+
+	sf::Sprite getBody();
+
 	virtual void update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>& map) = 0;
 	void draw(sf::RenderWindow& window);
 
-	sf::Sprite getBody();
+	
 
 };
 

@@ -4,36 +4,36 @@
 
 void GameMaster::updateScore(int&& value){
 	if (value < 0) {
-		if (score - value < 0)
-			score = 0;
-		else 
-			score += value;
+		if (score_ - value < 0)
+			score_ = 0;
+		else
+			score_ += value;
 	}
 	else
-		score += value;
+		score_ += value;
 }
 
 void GameMaster::updateLifes(int&& value){
 	if (value < 0) {
-		if (lifes - value < 0)
-			lifes = 0;
+		if (lifes_ - value < 0)
+			lifes_ = 0;
 		else
-			lifes += value;
+			lifes_ += value;
 	}
 	else
-		lifes += value;
+		lifes_ += value;
 }
 
 bool GameMaster::isDead(){
-	if (lifes <= 0) {
+	if (lifes_ <= 0) {
 		return true;
 	}
 	else
 		return false;
 }
 void GameMaster::init(){
-	score = 0;
-	lifes = 3;
+	score_ = 0;
+	lifes_ = 3;
 
 }
 
@@ -63,12 +63,12 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event){
 	std::vector<Point> points = Point::stage1();
 
 	//mask for teleport
-	std::vector<Map> mask{ Map(window, sf::Vector2f(17 * MAP_PIXELS_SIZE, 9 * MAP_PIXELS_SIZE), sf::Vector2f(2 * MAP_PIXELS_SIZE, MAP_PIXELS_SIZE), sf::Color::Black),
-		Map(window, sf::Vector2f(0, 9 * MAP_PIXELS_SIZE), sf::Vector2f(2 * MAP_PIXELS_SIZE, MAP_PIXELS_SIZE), sf::Color::Black) };
+	std::vector<Map> mask{ Map(window, sf::Vector2f(17, 9), sf::Vector2f(2, 1), sf::Color::Black),
+		Map(window, sf::Vector2f(0, 9), sf::Vector2f(2, 1), sf::Color::Black) };
 
 	//teleport 
-	std::vector<Map> teleport{ Map(window, sf::Vector2f(-1 * MAP_PIXELS_SIZE, 9 * MAP_PIXELS_SIZE), sf::Vector2f(MAP_PIXELS_SIZE, MAP_PIXELS_SIZE), sf::Color::White),
-		Map(window, sf::Vector2f(19 * MAP_PIXELS_SIZE, 9 * MAP_PIXELS_SIZE), sf::Vector2f(MAP_PIXELS_SIZE, MAP_PIXELS_SIZE), sf::Color::White) };
+	std::vector<Map> teleport{ Map(window, sf::Vector2f(-1, 9), sf::Vector2f(1, 1), sf::Color::White),
+		Map(window, sf::Vector2f(19, 9), sf::Vector2f(1, 1), sf::Color::White) };
 
 	//creating player sprite
 	Player pl(window, "./sprites/player.png", sf::Vector2f(MAP_OFFSET_X + 9 * MAP_PIXELS_SIZE, MAP_OFFSET_Y + 14 * MAP_PIXELS_SIZE));
@@ -93,44 +93,46 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event){
 			//float currTime = clock.getElapsedTime().asSeconds();
 			//if (currTime >= nextTime) {
 			//	nextTime += delta;
-				window.clear();
+			window.clear();
 
-				//map drawing
-				for (auto& obj : map) {
-					obj.draw(window);
-					if (pl.doesCollide(obj.getShape()))
-						pl.stop();
+			//map drawing
+			for (auto& obj : map) {
+				obj.draw(window);
+				if (pl.doesCollide(obj.getShape()))
+					pl.stop();
+			}
+
+			//teleport handling
+			if (pl.doesCollide(teleport[0].getShape())){
+				pl.setPosition(18.f, 9.f);
+				pl.setmoveLeft();
+			}
+			else if (pl.doesCollide(teleport[1].getShape())) {
+				pl.setPosition(0.f, 9.f);
+				pl.setmoveRight();
+			}
+
+			//points drawing + handling
+			for (auto it = points.begin(); it < points.end();) {
+
+				if (pl.doesCollide(it->getShape())) {
+					it = points.erase(it);
+					updateScore();
 				}
-
-				//teleport handling
-				if (pl.doesCollide(teleport[0].getShape())){
-					pl.setPosition(18.f, 9.f);
-					pl.setmoveLeft();
-				} else if (pl.doesCollide(teleport[1].getShape())) {
-					pl.setPosition(0.f, 9.f);
-					pl.setmoveRight();
+				else {
+					it->draw(window);
+					++it;
 				}
+			}
 
-				//points drawing + handling
-				for (auto it = points.begin(); it < points.end();) {
+			//player actions + drawing
+			//pl.update(window, event, map);
+			logic.playerLogic(window, pl, event, map);
+			pl.draw(window);
 
-					if (pl.doesCollide(it->getShape())) {
-						it = points.erase(it);
-						updateScore();
-					} else {
-						it->draw(window);
-						++it;
-					}
-				}
-
-				//player actions + drawing
-				//pl.update(window, event, map);
-				logic.playerLogic(window, pl, event, map);
-				pl.draw(window);
-
-				// drawing mask for teleport
-				mask[0].draw(window);
-				mask[1].draw(window);
+			// drawing mask for teleport
+			mask[0].draw(window);
+			mask[1].draw(window);
 			//} else{
 			//	int sleepTime = (int)(1000.0 * (nextTime - currTime));
 			//	if (sleepTime > 0) {
@@ -139,7 +141,8 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event){
 			//}
 
 
-		} else {
+		}
+		else {
 
 			//do something if pause is clicked ( Display PAUSE, Enter to continue, escape to exit game
 			std::cout << "Przerwa" << std::endl;

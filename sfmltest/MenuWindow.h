@@ -4,10 +4,10 @@
 class MenuWindow
 {
 private:
-	sf::Sprite		background;
-	sf::Texture		background_texture;
-	sf::Text		gameName, options[3]; 
-	sf::Font		font; 
+	sf::Sprite	background_;
+	sf::Texture	background_texture_;
+	sf::Text	game_name_, options_[3]; 
+	sf::Font	font_; 
 
 	sf::View		menuView;
 	//sf::Vector2f wordlPos;
@@ -16,13 +16,12 @@ public:
 	MenuWindow(sf::RenderWindow &window);
 	~MenuWindow();
 
-	//void			moveUp();
-	//void			moveDown();
-
 	void draw(sf::RenderWindow& window);
+
+	void checkStatus(sf::RenderWindow&window, sf::Event& event, GameMaster& game);		//event handling
 	void setStatus(sf::RenderWindow& window);							//setting which option is chosen
 	int	getStatus();													//getting chosen element id 
-	void checkStatus(sf::RenderWindow&window, sf::Event& event, GameMaster& game);		//event handling
+
 
 };
 
