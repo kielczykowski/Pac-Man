@@ -16,11 +16,11 @@ public:
 	MenuWindow(sf::RenderWindow &window);
 	~MenuWindow();
 
-	void draw(sf::RenderWindow& window);
+	void draw(sf::RenderWindow& window) const;
 
-	void checkStatus(sf::RenderWindow&window, sf::Event& event, GameMaster& game);		//event handling
-	void setStatus(sf::RenderWindow& window);							//setting which option is chosen
-	int	getStatus();													//getting chosen element id 
+	void checkStatus(sf::RenderWindow&window, sf::Event& event, GameMaster& game, Highscore& hgh) const;		//event handling
+	void setStatus(sf::RenderWindow& window);													//setting which option is chosen
+	int	getStatus() const;																		//getting chosen element id 
 
 
 };

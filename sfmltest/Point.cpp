@@ -66,15 +66,15 @@ std::vector<Point> Point::stage1() {
 	return objects;
 }
 
-void Point::draw(sf::RenderWindow& window) {
+void Point::draw(sf::RenderWindow& window) const{
 	window.draw(shape_);
 }
 
-sf::CircleShape Point::getShape() {
+sf::CircleShape Point::getShape() const{
 	return this->shape_;
 }
 
-SpecialPower Point::getPower() {
+SpecialPower Point::getPower() const{
 	return power_;
 }
 //

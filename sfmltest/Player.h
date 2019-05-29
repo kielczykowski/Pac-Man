@@ -28,8 +28,8 @@ public:
 	void stop();
 	void move();
 	void setPosition(float x, float y);
-	bool doesCollide(sf::RectangleShape& shape);
-	bool doesCollide(sf::CircleShape& shape);
+	bool doesCollide(sf::RectangleShape& shape) const;
+	bool doesCollide(sf::CircleShape& shape) const;
 
 
 	void getStates();
@@ -44,12 +44,12 @@ public:
 	void setWantLeft(const bool& logic);
 	void setWantRight(const bool& logic);
 
-	bool getWantUp();
-	bool getWantDown();
-	bool getWantLeft();
-	bool getWantRight();
+	bool getWantUp() const;
+	bool getWantDown() const;
+	bool getWantLeft() const;
+	bool getWantRight() const;
 
-	float getXSpeed();
-	float getYSpeed();
+	float getXSpeed() const;
+	float getYSpeed() const;
 };
 

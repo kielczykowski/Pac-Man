@@ -19,11 +19,11 @@ Map::~Map()
 {
 }
 
-void Map::draw(sf::RenderWindow& window) {
+void Map::draw(sf::RenderWindow& window) const{
 	window.draw(shape_);
 }
 
-std::vector<Map> Map::stage1(sf::RenderWindow& window) {
+std::vector<Map> Map::stage1(sf::RenderWindow& window)  {
 	std::vector<Map> objects;
 	objects.push_back(Map(window, sf::Vector2f(0, 0), sf::Vector2f(19, 2)));
 	objects.push_back(Map(window, sf::Vector2f(0, 2), sf::Vector2f(2, 7)));
@@ -68,6 +68,6 @@ std::vector<Map> Map::stage1(sf::RenderWindow& window) {
 	return objects;
 }
 
-sf::RectangleShape Map::getShape(){
+sf::RectangleShape Map::getShape() const {
 	return this->shape_;
 }

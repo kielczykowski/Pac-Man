@@ -52,7 +52,7 @@ MenuWindow::~MenuWindow()
 {
 }
 
-void MenuWindow::draw(sf::RenderWindow &window) {
+void MenuWindow::draw(sf::RenderWindow &window) const{
 	window.clear();
 	window.draw(background_);
 	window.draw(game_name_);
@@ -82,7 +82,7 @@ void MenuWindow::setStatus(sf::RenderWindow& window) {
 	//Keyboard dependent
 }
 
-int MenuWindow::getStatus() {
+int MenuWindow::getStatus() const{
 	for (int i = 0; i < 3; i++) {
 		if (options_[i].getFillColor() == sf::Color::Red)
 			return i;
@@ -90,7 +90,7 @@ int MenuWindow::getStatus() {
 	return -1;
 }
 
-void MenuWindow::checkStatus(sf::RenderWindow&window, sf::Event& event, GameMaster& game) {
+void MenuWindow::checkStatus(sf::RenderWindow&window, sf::Event& event, GameMaster& game, Highscore& hgh) const{
 	while (window.pollEvent(event)) {
 		switch (event.type) {
 		case sf::Event::MouseButtonPressed:
@@ -99,10 +99,11 @@ void MenuWindow::checkStatus(sf::RenderWindow&window, sf::Event& event, GameMast
 				switch (getStatus()) {
 				case 0:
 					std::cout << "Play" << std::endl;
-					game.main(window, event);
+					game.main(window, event,hgh);
 					break;
 				case 1:
 					std::cout << "Highscore" << std::endl;
+					hgh.main(window,event);
 					break;
 				case 2:
 					std::cout << "Exit" << std::endl;

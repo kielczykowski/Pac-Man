@@ -11,10 +11,10 @@ public:
 	GameObject(sf::RenderWindow& window, sf::String path,sf::Vector2f& position);
 	virtual ~GameObject();
 
-	sf::Sprite getBody();
+	sf::Sprite getBody() const;
 
 	virtual void update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>& map) = 0;
-	void draw(sf::RenderWindow& window);
+	void draw(sf::RenderWindow& window) const;
 
 	
 

@@ -15,10 +15,10 @@ GameObject::~GameObject()
 {
 }
 
-void GameObject::draw(sf::RenderWindow& window) {
+void GameObject::draw(sf::RenderWindow& window) const{
 	window.draw(this->body_);
 }
 
-sf::Sprite GameObject::getBody(){
+sf::Sprite GameObject::getBody() const {
 	return body_;
 }

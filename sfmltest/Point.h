@@ -12,10 +12,10 @@ public:
 	Point(sf::Vector2f& position, const SpecialPower& pow = SpecialPower::NONE, const sf::Color& color= sf::Color::Red);
 	static std::vector<Point> stage1();
 
-	void draw(sf::RenderWindow& window);
-	sf::CircleShape getShape();
+	void draw(sf::RenderWindow& window) const;
+	sf::CircleShape getShape() const;
 
-	SpecialPower getPower();
+	SpecialPower getPower() const;
 };
 
 //virtual ~Point();

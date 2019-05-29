@@ -7,11 +7,15 @@
 #include <cmath>
 #include <memory>
 #include <windows.h>
+#include <sstream>
+#include <string>
+#include <fstream>
 
 #define SCREEN_WIDTH			1000
 #define SCREEN_HEIGHT			700
 
 #define FONT_PATH				"Walk-Around-the-Block.ttf"
+#define HIGHSCORES_PATH			"./Highscores.txt"
 
 #define BACKGROUND_MENU_WIDTH	3592
 #define BACKGROUND_MENU_HEIGHT	2612
@@ -28,6 +32,11 @@ enum class SpecialPower {
 	SUPER_SPEED,
 	SHOOT,
 	SLOW_EAT_ENEMY
+};
+
+struct ScoreData{
+	std::string nick;
+	int points;
 };
 
 //MenuWindow
@@ -47,7 +56,9 @@ enum class SpecialPower {
 //still problem, framerate jumps 2 high
 
 //TODO:
-//wyœwietlanie wyniku punktów w trakcie gry
+//wyœwietlanie wyniku punktów w trakcie gry													==DONE
+//Pauza w grze!																				==DONE
+//Pobieranie nicku od zawodnika
 //stworzenie przeciwników i ich algorytmu
 //opracowanie dzia³ania supermocy Pacmana -> czasowe ustawianie jego mocy 
 //stworzenie rankingu w highscores -> prosta baza danych czy mo¿e plik bitowy
@@ -56,3 +67,7 @@ enum class SpecialPower {
 //framerate-independent gameplay !
 //ogarniêcie problemu View
 //REWIZJA KODU bo do niczego to nie podobne jest XD
+
+//refactor:
+//void GameMaster::drawUpdates(sf::RenderWindow& window);
+//void Highscore::downloadHighscores();

@@ -68,6 +68,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	sf::RenderWindow window(sf::VideoMode(600, 600), "Window", sf::Style::Fullscreen);
 	MenuWindow menu(window);
 	GameMaster game;
+	Highscore hgh;
 	sf::Event event;
 
 	/*Map o1 = Map(window, sf::Vector2f(0, 0), sf::Vector2f(750, 50));*/
@@ -118,7 +119,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		//Menu Window test
 		menu.draw(window);
 		menu.setStatus(window);
-		menu.checkStatus(window, event, game);
+		menu.checkStatus(window, event, game,hgh);
 
 		//Player test
 		//		float currTime = clock.getElapsedTime().asSeconds();

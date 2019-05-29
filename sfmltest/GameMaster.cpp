@@ -24,7 +24,7 @@ void GameMaster::updateLifes(int&& value){
 		lifes_ += value;
 }
 
-bool GameMaster::isDead(){
+bool GameMaster::isDead() const{
 	if (lifes_ <= 0) {
 		return true;
 	}
@@ -37,17 +37,51 @@ void GameMaster::init(){
 
 }
 
-bool GameMaster::getPause(){
+bool GameMaster::getPause() const{
 	return pause;
 }
-bool GameMaster::getExit(){
+bool GameMaster::getExit() const{
 	return exit;
+}
+
+//to refactor
+void GameMaster::drawUpdates(sf::RenderWindow& window) {
+	sf::Text score,lifes;
+	sf::RectangleShape frame;
+	std::stringstream buffer,bufferxd;
+	buffer << "Score: " << score_;
+	score.setString(buffer.str());
+	buffer.clear();
+	bufferxd << "Lifes: " << lifes_;
+	lifes.setString(bufferxd.str());
+	
+	score.setFont(font_);
+	lifes.setFont(font_);
+	score.setFillColor(sf::Color::Yellow);
+	lifes.setFillColor(sf::Color::Yellow);
+	score.setCharacterSize(MAP_PIXELS_SIZE);
+	lifes.setCharacterSize(MAP_PIXELS_SIZE);
+	score.setPosition(sf::Vector2f(MAP_OFFSET_X + 20 * MAP_PIXELS_SIZE, MAP_OFFSET_Y));
+	lifes.setPosition(sf::Vector2f(MAP_OFFSET_X + 20 * MAP_PIXELS_SIZE, MAP_OFFSET_Y + 2* MAP_PIXELS_SIZE));
+
+	//frame.setColor(sf::Color::Yellow);
+	frame.setSize(sf::Vector2f(MAP_PIXELS_SIZE * 6, MAP_PIXELS_SIZE * 3.4f));
+	frame.setPosition(sf::Vector2f(MAP_OFFSET_X + 20 * MAP_PIXELS_SIZE, MAP_OFFSET_Y));
+	frame.setOutlineColor(sf::Color::Yellow);
+	frame.setFillColor(sf::Color::Transparent);
+	frame.setOutlineThickness(static_cast<float>(MAP_PIXELS_SIZE / 5));
+
+	window.draw(frame);
+	window.draw(lifes);
+	window.draw(score);
+
 }
 
 
 GameMaster::GameMaster()
 {
 	init();
+	assert(font_.loadFromFile("./Arialn.ttf"));
 }
 
 
@@ -55,7 +89,29 @@ GameMaster::~GameMaster()
 {
 }
 
-void GameMaster::main(sf::RenderWindow& window, sf::Event& event){
+void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh){
+	sf::Font font;
+	assert(font.loadFromFile("./Walk-Around-the-Block.ttf"));
+
+	sf::Text pause, pause_contiunation;
+	pause.setString("Pause!");
+	pause.setFont(font);
+	pause.setFillColor(sf::Color::Yellow);
+	pause.setCharacterSize(MAP_PIXELS_SIZE * 2);
+	pause.setPosition(sf::Vector2f(MAP_OFFSET_X + 7 * MAP_PIXELS_SIZE, MAP_OFFSET_Y + 3 * MAP_PIXELS_SIZE));
+
+	pause_contiunation.setString("Press Enter to continue, Escape to quit game");
+	pause_contiunation.setFont(font);
+	pause_contiunation.setFillColor(sf::Color::Yellow);
+	pause_contiunation.setCharacterSize(MAP_PIXELS_SIZE * 0.5f);
+	pause_contiunation.setPosition(sf::Vector2f(MAP_OFFSET_X + 5.4f * MAP_PIXELS_SIZE, MAP_OFFSET_Y + 6* MAP_PIXELS_SIZE));
+
+
+
+	//hgh.addHighscores("KIEMON", 696969696);
+	//hgh.saveHighscores();
+
+
 	//Creating components of game/map -----------------------------
 
 	//Map
@@ -129,6 +185,7 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event){
 			//pl.update(window, event, map);
 			logic.playerLogic(window, pl, event, map);
 			pl.draw(window);
+			drawUpdates(window);
 
 			// drawing mask for teleport
 			mask[0].draw(window);
@@ -143,11 +200,18 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event){
 
 		}
 		else {
-
+			//sf::String pause;
 			//do something if pause is clicked ( Display PAUSE, Enter to continue, escape to exit game
 			std::cout << "Przerwa" << std::endl;
-			Sleep(3000);
-			logic.setPause(false);
+			window.clear();
+			window.draw(pause);
+			window.draw(pause_contiunation);
+			logic.pausedGameLogic(window, event);
+			hgh.printHighscores();
+
+
+
+
 		}
 
 

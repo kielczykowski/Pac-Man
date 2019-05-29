@@ -118,10 +118,26 @@ void GameLogic::playerLogic(sf::RenderWindow& window, Player& player, sf::Event&
 	player.move();
 }
 
-bool GameLogic::getPause(){
+void GameLogic::pausedGameLogic(sf::RenderWindow& window, sf::Event& event){
+	while (window.pollEvent(event)) {
+		switch (event.type) {
+		case sf::Event::KeyPressed:
+			switch (event.key.code) {
+			case sf::Keyboard::Enter:
+				setPause(false);
+				break;
+			case sf::Keyboard::Escape:
+				setExit(true);
+				break;
+			}
+		}
+	}
+}
+
+bool GameLogic::getPause() const{
 	return pause_;
 }
-bool GameLogic::getExit(){
+bool GameLogic::getExit() const{
 	return exit_;
 }
 void GameLogic::setPause(bool logic){

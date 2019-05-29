@@ -1,5 +1,5 @@
 #pragma once
-#include "Point.h"
+#include "Highscore.h"
 
 class GameLogic
 {
@@ -10,11 +10,12 @@ public:
 	GameLogic();
 	~GameLogic();
 
-	bool getPause();
-	bool getExit();
+	bool getPause() const;
+	bool getExit() const;
 	void setPause(bool logic);
 	void setExit(bool logic);
 
 	void playerLogic(sf::RenderWindow& window, Player& player, sf::Event& event, std::vector<Map>& map);
+	void pausedGameLogic(sf::RenderWindow& window, sf::Event& event);
 };
 

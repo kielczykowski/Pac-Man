@@ -177,23 +177,23 @@ void Player::setWantRight(const bool& logic){
 	wantRight_ = logic;
 }
 
-bool Player::getWantUp(){
+bool Player::getWantUp() const{
 	return wantUpwards_;
 }
-bool Player::getWantDown(){
+bool Player::getWantDown() const{
 	return wantDownwards_;
 }
-bool Player::getWantLeft(){
+bool Player::getWantLeft() const{
 	return wantLeft_;
 }
-bool Player::getWantRight(){
+bool Player::getWantRight() const{
 	return wantRight_;
 }
 
-float Player::getXSpeed(){
+float Player::getXSpeed() const{
 	return speedx_;
 }
-float Player::getYSpeed(){
+float Player::getYSpeed() const{
 	return speedy_;
 }
 
@@ -245,11 +245,11 @@ bool Player::checkDown(std::vector<Map>& objects) {
 	return true;
 }
 
-bool Player::doesCollide(sf::RectangleShape& shape){
+bool Player::doesCollide(sf::RectangleShape& shape) const {
 	return body_.getGlobalBounds().intersects(shape.getGlobalBounds());
 }
 
-bool Player::doesCollide(sf::CircleShape& shape){
+bool Player::doesCollide(sf::CircleShape& shape) const{
 	return body_.getGlobalBounds().intersects(shape.getGlobalBounds());
 }
 
