@@ -202,38 +202,42 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 		else {
 			//sf::String pause;
 			//do something if pause is clicked ( Display PAUSE, Enter to continue, escape to exit game
-			std::cout << "Przerwa" << std::endl;
+			//std::cout << "Przerwa" << std::endl;
 			window.clear();
 			window.draw(pause);
 			window.draw(pause_contiunation);
 			logic.pausedGameLogic(window, event);
-			hgh.printHighscores();
-
-
-
+			//hgh.printHighscores();
 
 		}
-
-
-		//while (window.pollEvent(event)) {
-		//	switch (event.type) {
-		//	case sf::Event::KeyPressed:
-		//		switch (event.key.code) {
-		//		case sf::Keyboard::Escape:
-		//			if (pause == true){
-		//				exit = true;
-		//			}
-		//			else {
-		//				pause = true;
-		//			}
-		//			break;
-		//		}
-		//		break;
-		//	}
-		//}
-
-
 		window.display();
 	}
+	if (score_ == 0) {
+		return;
+	}
+	else{
+		sf::Text ending, input;
+		sf::String nick;
+		ending.setString("Enter Your Nickname: ");
+		ending.setFillColor(sf::Color::Yellow);
+		ending.setCharacterSize(50);
+		ending.setFont(font);
+		ending.setPosition(sf::Vector2f(MAP_OFFSET_X, MAP_OFFSET_Y + 2 * MAP_PIXELS_SIZE));
 
+		input.setFillColor(sf::Color::Yellow);
+		input.setCharacterSize(25);
+		input.setFont(font);
+		input.setPosition(sf::Vector2f(MAP_OFFSET_X, MAP_OFFSET_Y + 5 * MAP_PIXELS_SIZE));
+
+		while (!logic.getSaveScore()){
+			window.clear();
+			logic.afterGameLogic(window, event, nick);
+			input.setString(nick);
+			window.draw(ending);
+			window.draw(input);
+			window.display();
+		}
+		hgh.addHighscores(nick, score_);
+		hgh.saveHighscores();
+	}
 }

@@ -21,6 +21,11 @@ Highscore::~Highscore()
 
 void Highscore::initTable(){
 	table_.clear();
+	//lambda expression to sort custom data objects
+	std::sort(data_.begin(), data_.end(), [](const ScoreData& a, const ScoreData& b){
+		return a.points > b.points;
+	});
+
 	int i = 1;
 	for (auto& obj : data_) {
 		sf::Text txt;

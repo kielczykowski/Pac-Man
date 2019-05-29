@@ -71,3 +71,6 @@ struct ScoreData{
 //refactor:
 //void GameMaster::drawUpdates(sf::RenderWindow& window);
 //void Highscore::downloadHighscores();
+
+//PROBLEMS
+//void GameLogic::afterGameLogic(sf::RenderWindow& window, sf::Event& event, sf::String& nick);				Esc,bspc problem of getting unicode and writing it to string :(

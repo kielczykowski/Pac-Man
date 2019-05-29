@@ -134,6 +134,26 @@ void GameLogic::pausedGameLogic(sf::RenderWindow& window, sf::Event& event){
 	}
 }
 
+void GameLogic::afterGameLogic(sf::RenderWindow& window, sf::Event& event, sf::String& nick){
+	while (window.pollEvent(event)) {
+		switch (event.type) {
+		case sf::Event::TextEntered:
+			nick += event.text.unicode;
+			break;
+		case sf::Event::KeyPressed:
+			switch (event.key.code) {
+			case sf::Keyboard::Enter:
+				save_score_ = true;
+				break;
+			case sf::Keyboard::BackSpace:
+				nick = nick.substring(0, nick.getSize() - 1);
+				break;
+			}
+			break;
+		}
+	}
+}
+
 bool GameLogic::getPause() const{
 	return pause_;
 }
@@ -147,11 +167,19 @@ void GameLogic::setExit(bool logic){
 	exit_ = logic;
 }
 
+void GameLogic::setSaveScore(bool logic){
+	save_score_ = logic;
+}
+bool GameLogic::getSaveScore() const{
+	return save_score_;
+}
+
 
 GameLogic::GameLogic()
 {
 	pause_ = false;
 	exit_ = false;
+	save_score_ = false;
 }
 
 
