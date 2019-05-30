@@ -74,3 +74,4 @@ struct ScoreData{
 
 //PROBLEMS
 //void GameLogic::afterGameLogic(sf::RenderWindow& window, sf::Event& event, sf::String& nick);				Esc,bspc problem of getting unicode and writing it to string :(
+//void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh)							empty string is added to highscores list

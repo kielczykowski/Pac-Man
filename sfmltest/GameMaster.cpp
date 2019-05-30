@@ -237,7 +237,12 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 			window.draw(input);
 			window.display();
 		}
-		hgh.addHighscores(nick, score_);
-		hgh.saveHighscores();
+		//EMPTY STRING PROBLEM
+		//std::string s = nick.toAnsiString();
+		//std::cout << s;
+		//if (!nick.isEmpty()) {
+			hgh.addHighscores(nick, score_);
+			hgh.saveHighscores();
+		//}
 	}
 }

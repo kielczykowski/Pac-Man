@@ -19,6 +19,7 @@ Player::~Player()
 {
 }
 
+//not used atm
 void Player::update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>& map){
 
 	//checking possibilities for player to move
@@ -257,6 +258,9 @@ void Player::setPosition(float x, float y){
 	body_.setPosition(sf::Vector2f(x * MAP_PIXELS_SIZE + MAP_OFFSET_X, y * MAP_PIXELS_SIZE + MAP_OFFSET_Y));
 }
 
+
+
+//not used
 void Player::checkMovementPossibility(sf::RectangleShape& shape){
 	sf::FloatRect boundries = body_.getGlobalBounds();
 	//boundries.
