@@ -2,12 +2,9 @@
 #include "Player.h"
 
 
-Player::Player(sf::RenderWindow& window, sf::String path, sf::Vector2f& position, float speed) : GameObject(window, path, position)
+Player::Player(sf::RenderWindow& window, sf::String path, sf::Vector2f& position, float speed) : GameObject(window, path, position,speed)
 {
 	std::cout << "PLEJER" << std::endl;
-	this->speed_ = speed;
-	this->speedx_ = 0;
-	this->speedy_ = 0;
 	wantDownwards_ = false;
 	wantUpwards_ = false;
 	wantRight_ = false;
@@ -133,34 +130,10 @@ void Player::getStates() {
 	std::cout << "prawo: " << wantRight_ << std::endl;
 }
 
-void Player::setmoveDown() {
-	speedx_ = 0;
-	speedy_ = speed_;
-}
-void Player::setmoveUp() {
-	speedx_ = 0;
-	speedy_ = -speed_;
-}
 
-void Player::setmoveLeft() {
-	speedx_ = -speed_;
-	speedy_ = 0;
-}
 
-void Player::setmoveRight() {
-	speedx_ = speed_;
-	speedy_ = 0;
-}
 
-void Player::stop() {
-	body_.move(-speedx_, -speedy_);
-	speedx_ = 0;
-	speedy_ = 0;
-}
 
-void Player::move(){
-	body_.move(speedx_, speedy_);
-}
 
 void Player::setWantUp(const bool& logic){
 	wantUpwards_ = logic;
@@ -191,72 +164,10 @@ bool Player::getWantRight() const{
 	return wantRight_;
 }
 
-float Player::getXSpeed() const{
-	return speedx_;
-}
-float Player::getYSpeed() const{
-	return speedy_;
-}
 
 
-bool Player::checkRight(std::vector<Map>& objects) {
-	body_.move(speed_, 0);
-	for (auto& object : objects) {
-		if (body_.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
-			body_.move(-speed_, 0);
-			return false;
-		}
-	}
-	body_.move(-speed_, 0);
-	return true;
-}
-bool Player::checkLeft(std::vector<Map>& objects) {
-	body_.move(-speed_, 0);
-	for (auto& object : objects) {
-		if (body_.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
-			body_.move(speed_, 0);
-			return false;
-		}
-	}
-	body_.move(speed_, 0);
-	return true;
-}
 
-bool Player::checkUp(std::vector<Map>& objects) {
-	body_.move(0, -speed_);
-	for (auto& object : objects) {
-		if (body_.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
-			body_.move(0, speed_);
-			return false;
-		}
-	}
-	body_.move(0, speed_);
-	return true;
-}
 
-bool Player::checkDown(std::vector<Map>& objects) {
-	body_.move(0, speed_);
-	for (auto& object : objects) {
-		if (body_.getGlobalBounds().intersects(object.getShape().getGlobalBounds())){
-			body_.move(0, -speed_);
-			return false;
-		}
-	}
-	body_.move(0, -speed_);
-	return true;
-}
-
-bool Player::doesCollide(sf::RectangleShape& shape) const {
-	return body_.getGlobalBounds().intersects(shape.getGlobalBounds());
-}
-
-bool Player::doesCollide(sf::CircleShape& shape) const{
-	return body_.getGlobalBounds().intersects(shape.getGlobalBounds());
-}
-
-void Player::setPosition(float x, float y){
-	body_.setPosition(sf::Vector2f(x * MAP_PIXELS_SIZE + MAP_OFFSET_X, y * MAP_PIXELS_SIZE + MAP_OFFSET_Y));
-}
 
 
 

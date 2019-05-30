@@ -4,14 +4,12 @@
 class Player : public GameObject
 {
 private: 
-	float	speed_;
-	float	speedx_;
-	float	speedy_;
 
 	bool	wantUpwards_;
 	bool	wantDownwards_;
 	bool	wantLeft_;
 	bool	wantRight_;
+
 
 public:
 	Player(sf::RenderWindow& window, sf::String path, sf::Vector2f& position, float speed = 1.f);
@@ -20,24 +18,10 @@ public:
 	void update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>& map) override;
 
 	void checkMovementPossibility(sf::RectangleShape& shape);
-	bool checkRight(std::vector<Map>& objects);
-	bool checkLeft(std::vector<Map>& objects);
-	bool checkUp(std::vector<Map>& objects);
-	bool checkDown(std::vector<Map>& objects);
-
-	void stop();
-	void move();
-	void setPosition(float x, float y);
-	bool doesCollide(sf::RectangleShape& shape) const;
-	bool doesCollide(sf::CircleShape& shape) const;
 
 
-	void getStates();
 
-	void setmoveUp();
-	void setmoveDown();
-	void setmoveLeft();
-	void setmoveRight();
+
 
 	void setWantUp(const bool& logic);
 	void setWantDown(const bool& logic);
@@ -49,7 +33,9 @@ public:
 	bool getWantLeft() const;
 	bool getWantRight() const;
 
-	float getXSpeed() const;
-	float getYSpeed() const;
+
+	void getStates();
+
+
 };
 
