@@ -127,9 +127,13 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 		Map(window, sf::Vector2f(19, 9), sf::Vector2f(1, 1), sf::Color::White) };
 
 	//creating player sprite
-	Player pl(window, "./sprites/player.png", sf::Vector2f(MAP_OFFSET_X + 9 * MAP_PIXELS_SIZE, MAP_OFFSET_Y + 14 * MAP_PIXELS_SIZE));
+	Player pl(window, "./sprites/player.png", sf::Vector2f(9 ,14));
 
 	//creating Enemies
+	std::vector<Enemy> enemies{ Enemy(window, "./sprites/special.jpg", sf::Vector2f(8,9)),
+		Enemy(window, "./sprites/special.jpg", sf::Vector2f(9,9)),
+		Enemy(window, "./sprites/special.jpg", sf::Vector2f(10,9)) };
+
 	//TODO
 
 	//initialise game with starting values
@@ -171,19 +175,58 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 			//points drawing + handling
 			for (auto it = points.begin(); it < points.end();) {
 
-				if (pl.doesCollide(it->getShape())) {
+				if (pl.doesCollide(it->getShape()) && it->getPower() == SpecialPower::SLOW_EAT_ENEMY) {
+					pl.setPower(SpecialPower::SLOW_EAT_ENEMY);
+					logic.setValidPower(true);
+					logic.startClock();
+					for (auto& obj : enemies){
+						obj.changeColor();
+						obj.setSpeed(0.5f);
+					}
+					it = points.erase(it);
+					updateScore(200);
+				}
+				else if (pl.doesCollide(it->getShape()) && it->getPower() == SpecialPower::NONE){
 					it = points.erase(it);
 					updateScore();
-				}
-				else {
+				}else{
 					it->draw(window);
 					++it;
+				}
+			}
+
+
+			//enemies collision
+			for (auto& obj: enemies) {
+				if (pl.getBody().getGlobalBounds().intersects(obj.getBody().getGlobalBounds()) && pl.getPower() == SpecialPower::NONE) {
+					lifes_ -= 1;
+					pl.setPosition(9, 14);
+					if (lifes_ <= 0) {
+						logic.setPause(true);
+						logic.setExit(true);
+					}
+				}
+				else if (pl.getBody().getGlobalBounds().intersects(obj.getBody().getGlobalBounds()) && pl.getPower() == SpecialPower::SLOW_EAT_ENEMY){
+					score_ += 300;
+					obj.setPosition(9, 9);
+				}
+
+				if (logic.getElapsedTime() > POWER_VALIDATION_TIME && logic.getValidPower()) {
+					pl.setPower(SpecialPower::NONE);
+					logic.setValidPower(false);
+					for (auto& obj : enemies){
+						obj.changeColor();
+						obj.setSpeed(0.8f);
+					}
 				}
 			}
 
 			//player actions + drawing
 			//pl.update(window, event, map);
 			logic.playerLogic(window, pl, event, map);
+			for (auto& obj : enemies) {
+				obj.draw(window);
+			}
 			pl.draw(window);
 			drawUpdates(window);
 
@@ -237,10 +280,10 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 			window.draw(input);
 			window.display();
 		}
-		//EMPTY STRING PROBLEM
+		////EMPTY STRING PROBLEM
 		//std::string s = nick.toAnsiString();
 		//std::cout << s;
-		//if (!nick.isEmpty()) {
+		//if (s != "\n" || s!="") {
 			hgh.addHighscores(nick, score_);
 			hgh.saveHighscores();
 		//}

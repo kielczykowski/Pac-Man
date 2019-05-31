@@ -160,11 +160,17 @@ bool GameLogic::getPause() const{
 bool GameLogic::getExit() const{
 	return exit_;
 }
+bool GameLogic::getValidPower() const{
+	return valid_power_;
+}
 void GameLogic::setPause(bool logic){
 	pause_ = logic;
 }
 void GameLogic::setExit(bool logic){
 	exit_ = logic;
+}
+void GameLogic::setValidPower(bool logic){
+	valid_power_ = logic;
 }
 
 void GameLogic::setSaveScore(bool logic){
@@ -174,9 +180,17 @@ bool GameLogic::getSaveScore() const{
 	return save_score_;
 }
 
+void GameLogic::startClock(){
+	clock_.restart();
+}
+float GameLogic::getElapsedTime(){
+	return clock_.getElapsedTime().asSeconds();
+}
+
 
 GameLogic::GameLogic()
 {
+	valid_power_ = false;
 	pause_ = false;
 	exit_ = false;
 	save_score_ = false;

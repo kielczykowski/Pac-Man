@@ -19,7 +19,7 @@ public:
 
 	sf::Sprite getBody() const;
 
-	virtual void update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>& map) = 0;
+	//virtual void update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>& map) = 0;
 	void draw(sf::RenderWindow& window) const;
 
 	void stop();
@@ -39,6 +39,8 @@ public:
 	void setmoveDown();
 	void setmoveLeft();
 	void setmoveRight();
+
+	void setSpeed(float speed);
 
 	float getXSpeed() const;
 	float getYSpeed() const;

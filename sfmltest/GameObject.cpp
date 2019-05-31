@@ -6,8 +6,7 @@ GameObject::GameObject(sf::RenderWindow& window, sf::String path, sf::Vector2f& 
 {
 	assert(bodytexture_.loadFromFile(path));
 	body_.setTexture(bodytexture_);
-	body_.setPosition(position);
-
+	setPosition(position.x, position.y);
 	this->speed_ = speed;
 	this->speedx_ = 0;
 	this->speedy_ = 0;
@@ -116,6 +115,12 @@ void GameObject::setmoveRight() {
 	speedx_ = speed_;
 	speedy_ = 0;
 }
+
+
+void GameObject::setSpeed(float speed){
+	speed_ = speed;
+}
+
 
 
 
