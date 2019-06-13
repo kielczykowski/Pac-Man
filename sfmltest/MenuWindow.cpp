@@ -10,7 +10,7 @@ MenuWindow::MenuWindow(sf::RenderWindow &window)
 
 	//sf::Vector2f wordlPos = window.mapPixelToCoords(sf::Vector2i(window.getSize().x,window.getSize().y));
 
-	assert(background_texture_.loadFromFile("./sprites/backgroundXD.png"));
+	assert(background_texture_.loadFromFile("./sprites/background.jpg"));
 
 	background_texture_.setSmooth(true);
 	background_.setColor(sf::Color::Magenta);
@@ -90,7 +90,11 @@ int MenuWindow::getStatus() const{
 	return -1;
 }
 
-void MenuWindow::checkStatus(sf::RenderWindow&window, sf::Event& event, GameMaster& game, Highscore& hgh) const{
+sf::Sprite MenuWindow::getBackground() const{
+	return background_;
+}
+
+void MenuWindow::checkStatus(sf::RenderWindow&window, sf::Event& event, GameMaster& game, Highscore& hgh){
 	while (window.pollEvent(event)) {
 		switch (event.type) {
 		case sf::Event::MouseButtonPressed:
@@ -99,11 +103,13 @@ void MenuWindow::checkStatus(sf::RenderWindow&window, sf::Event& event, GameMast
 				switch (getStatus()) {
 				case 0:
 					std::cout << "Play" << std::endl;
-					game.main(window, event,hgh);
+					background_.setColor(sf::Color(255, 255, 255, 200));
+					game.main(window, event, hgh, background_);
+					background_.setColor(sf::Color::Magenta);
 					break;
 				case 1:
 					std::cout << "Highscore" << std::endl;
-					hgh.main(window,event);
+					hgh.main(window, event, background_);
 					break;
 				case 2:
 					std::cout << "Exit" << std::endl;

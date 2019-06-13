@@ -16,11 +16,6 @@ Enemy::~Enemy()
 //	std::cout << "XD" << std::endl;
 //}
 
-void Enemy::changeColor(){
-	if (body_.getColor() == sf::Color::White){
-		body_.setColor(sf::Color::Red);
-	}
-	else{
-		body_.setColor(sf::Color::White);
-	}
+void Enemy::changeColor(const sf::Color& color){
+		body_.setColor(color);
 }

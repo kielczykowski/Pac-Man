@@ -1,6 +1,37 @@
 #include "stdafx.h"
 #include "GameLogic.h"
 
+void GameLogic::enemyLogic(sf::RenderWindow& window, Player& player, std::vector<Enemy>& enemies, sf::Event& event, std::vector<Map>& map){
+	std::random_device rd{};
+	std::mt19937 engine{ rd() };
+	std::uniform_real_distribution<> dist(0.0, 1.0);
+
+	for (auto enemy : enemies){
+		//if (enemy.checkUp(map)){
+		//	if (dist(engine) > 0.5) {
+		//		enemy.setmoveUp();
+		//	}
+		//}
+		//else if (enemy.checkDown(map)){
+		//	if (dist(engine) > 0.5) {
+		//		enemy.setmoveDown();
+		//	}
+		//}
+		//else if (enemy.checkLeft(map)){
+		//	if (dist(engine) > 0.5) {
+		//		enemy.setmoveLeft();
+		//	}
+		//}
+		//else {
+		//	if (dist(engine) > 0.5) {
+		//		enemy.setmoveRight();
+		//	}
+		//}
+		enemy.setmoveUp();
+		enemy.move();
+	}
+}
+
 void GameLogic::playerLogic(sf::RenderWindow& window, Player& player, sf::Event& event, std::vector<Map>& map){
 	bool canUp = player.checkUp(map);
 	bool canDown = player.checkDown(map);

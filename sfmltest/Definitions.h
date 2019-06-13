@@ -10,6 +10,76 @@
 #include <sstream>
 #include <string>
 #include <fstream>
+#include <random> 
+#include <cstdlib>
+#include <ctime>
+
+/*! \file Definitions.h
+	\brief Plik zawieraj¹cy define, struct i enumy globalnego zasiegu.
+
+	W pliku zawieraj¹ siê wszystkie definy powoduj¹ce, ¿e gra jest sterowana kilkoma zmiennymi, którymi u¿ytkownik jest w stanie dostosowaæ wspó³czynniki do w³asnych wymagañ sprzêtowych.
+	Ponad to zawiera enum i struct globalnego zasiêgu, które s¹ kluczowe z punktu widzenia ca³ego programu.
+	*/
+
+/*! \def SCREEN_WIDTH
+	\brief Makro determinuj¹ce szerokoœæ okna.
+
+*/
+
+/*! \def SCREEN_HEIGHT
+\brief Makro determinuj¹ce wysokoœæ okna.
+
+*/
+
+/*! \def FONT_PATH
+\brief Makro zawieraj¹ce w sobie œcie¿kê do czcionki.
+
+*/
+
+/*! \def HIGHSCORES_PATH
+\brief Makro zawieraj¹ce w sobie œcie¿kê do pliku z najlepszymi wynikami z gry
+
+*/
+
+/*! \def BACKGROUND_MENU_WIDTH
+\brief Makro determinuj¹ce szerokoœæ zdjêcia w tle MENU.
+
+*/
+/*! \def BACKGROUND_MENU_HEIGHT
+\brief Makro determinuj¹ce wysokoœæ zdjêcia w tle MENU.
+
+*/
+
+/*! \def MAP_PIXELS_SIZE
+\brief Makro determinuj¹ce rozmiar elementów mapy w pixelach.
+
+*/
+
+/*! \def MAP_OFFSET_X
+\brief Makro determinuj¹ce offset mapy rozgrywki w kierunku poziomym.
+
+*/
+/*! \def MAP_OFFSET_Y
+\brief Makro determinuj¹ce offset mapy rozgrywki w kierunku pinowym.
+
+*/
+
+/*! \def POWER_VALIDATION_TIME
+\brief Makro determinuj¹ce czas, przez który dzia³a super moc gracza.
+
+*/
+
+/*! \enum SpecialPower
+\brief Typ wyliczeniowy determinuj¹cy super moce dostêpne w grze.
+
+*/
+
+/*! \struct ScoreData
+\brief Struktura przechowuj¹ca dane po zakoñczeniu rozgrywki.
+
+*/
+
+
 
 #define SCREEN_WIDTH			1000
 #define SCREEN_HEIGHT			700
@@ -23,7 +93,7 @@
 #define MAP_PIXELS_SIZE			50
 #define MAP_OFFSET_X			450	//offsety po³o¿enia planszy na ekranie
 #define MAP_OFFSET_Y			75
-#define POWER_VALIDATION_TIME	5
+#define POWER_VALIDATION_TIME	10
 
 enum class SpecialPower {
 	NONE,
@@ -66,6 +136,10 @@ struct ScoreData{
 //REWIZJA KODU bo do niczego to nie podobne jest XD
 //!!!!!!!!!
 //add Scary mode to enemies- podczas poweru pacmana, ¿eby stworki ucieka³y
+//t³o na innych oknach te¿																	==DONE
+//dodaæ "YOU LOSE" po przegraniu gierki														==DONE
+//add after enemy colision 5 seconds where only player can move and intersection with enemies doesnt kill him(transparent them a little bit)
+//refaktoryzacja mastera do logic
 
 //refactor:
 //void GameMaster::drawUpdates(sf::RenderWindow& window);
@@ -76,3 +150,4 @@ struct ScoreData{
 //void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh)							empty string is added to highscores list
 //bool GameObject::doesCollide(sf::CircleShape& shape) const												polymorphism problem
 //void Enemy::update																						placeholder, maybe delete
+//OBJECT INTERSECTION !!!!!!! - musze przerobic to ruszanie sie bo to beka jakas jest	

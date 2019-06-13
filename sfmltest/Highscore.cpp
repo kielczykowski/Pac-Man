@@ -119,12 +119,13 @@ void Highscore::printHighscores(){
 }
 
 //cos nie dziala, nic nie dziala
-void Highscore::main(sf::RenderWindow& window, sf::Event& event) {
+void Highscore::main(sf::RenderWindow& window, sf::Event& event, const sf::Sprite& background) {
 	window.clear();
 	initTable();
 	bool exit = false;
 	while (!exit){
 		window.clear();
+		window.draw(background);
 		update(window);
 		while (window.pollEvent(event)) {
 			switch (event.type) {

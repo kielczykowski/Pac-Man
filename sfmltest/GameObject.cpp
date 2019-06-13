@@ -97,6 +97,10 @@ bool GameObject::checkDown(std::vector<Map>& objects) {
 	return true;
 }
 
+sf::Vector2f GameObject::getPosition(){
+	return body_.getPosition();
+}
+
 void GameObject::setmoveDown() {
 	speedx_ = 0;
 	speedy_ = speed_;

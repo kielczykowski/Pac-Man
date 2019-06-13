@@ -89,7 +89,7 @@ GameMaster::~GameMaster()
 {
 }
 
-void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh){
+void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh, const sf::Sprite& background){
 	sf::Font font;
 	assert(font.loadFromFile("./Walk-Around-the-Block.ttf"));
 
@@ -107,6 +107,15 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 	pause_contiunation.setPosition(sf::Vector2f(MAP_OFFSET_X + 5.4f * MAP_PIXELS_SIZE, MAP_OFFSET_Y + 6* MAP_PIXELS_SIZE));
 
 
+
+	std::random_device rd{};
+	std::mt19937 engine{ rd() };
+	std::uniform_real_distribution<> dist(0.0, 1.0);
+
+	srand(std::time(NULL));
+
+	bool enemyMove = false;
+	int xd = 0;
 
 	//hgh.addHighscores("KIEMON", 696969696);
 	//hgh.saveHighscores();
@@ -127,7 +136,7 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 		Map(window, sf::Vector2f(19, 9), sf::Vector2f(1, 1), sf::Color::White) };
 
 	//creating player sprite
-	Player pl(window, "./sprites/player.png", sf::Vector2f(9 ,14));
+	Player pl(window, "./sprites/player.png", sf::Vector2f(9 ,14),1.f);
 
 	//creating Enemies
 	std::vector<Enemy> enemies{ Enemy(window, "./sprites/special.jpg", sf::Vector2f(8,9)),
@@ -146,6 +155,7 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 
 	//mainloop
 	while (!logic.getExit()) {
+		xd++;
 		window.clear();
 
 		if (!logic.getPause()) {
@@ -154,12 +164,20 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 			//if (currTime >= nextTime) {
 			//	nextTime += delta;
 			window.clear();
+			window.draw(background);
 
 			//map drawing
 			for (auto& obj : map) {
 				obj.draw(window);
 				if (pl.doesCollide(obj.getShape()))
 					pl.stop();
+
+				for (int i = 0; i < 3; i++) {
+					if (enemies[i].doesCollide(obj.getShape()))
+					{
+						enemies[i].stop();
+					}
+				}
 			}
 
 			//teleport handling
@@ -177,11 +195,13 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 
 				if (pl.doesCollide(it->getShape()) && it->getPower() == SpecialPower::SLOW_EAT_ENEMY) {
 					pl.setPower(SpecialPower::SLOW_EAT_ENEMY);
+					//OBJECT INTERSECTION PROBLEM
+					//pl.setSpeed(0.8f);
 					logic.setValidPower(true);
 					logic.startClock();
 					for (auto& obj : enemies){
-						obj.changeColor();
-						obj.setSpeed(0.5f);
+						obj.changeColor(sf::Color::Red);
+					//	obj.setSpeed(0.5f);
 					}
 					it = points.erase(it);
 					updateScore(200);
@@ -213,10 +233,11 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 
 				if (logic.getElapsedTime() > POWER_VALIDATION_TIME && logic.getValidPower()) {
 					pl.setPower(SpecialPower::NONE);
+					//pl.setSpeed(1.0f);
 					logic.setValidPower(false);
 					for (auto& obj : enemies){
-						obj.changeColor();
-						obj.setSpeed(0.8f);
+						obj.changeColor(sf::Color::White);
+					//	obj.setSpeed(0.8f);
 					}
 				}
 			}
@@ -224,10 +245,107 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 			//player actions + drawing
 			//pl.update(window, event, map);
 			logic.playerLogic(window, pl, event, map);
-			for (auto& obj : enemies) {
-				obj.draw(window);
+		//	logic.enemyLogic(window, pl, enemies,event, map);
+			//enemies.at(1).setmoveUp();
+			//enemies.at(1).move();
+			for (auto& enemy : enemies) {
+				enemyMove = false;
+				
+				if (rand() % 2 > 0.5){
+					sf::Vector2f player_postion = pl.getPosition();
+
+					if (rand() % 2 > 0.5) {
+						if (player_postion.x < enemy.getPosition().x) {
+							if (enemy.checkLeft(map)){
+								enemy.setmoveLeft();
+								enemyMove = true;
+							}
+						}
+					}
+
+					if (rand() % 2 > 0.5) {
+						if (player_postion.x > enemy.getPosition().x) {
+							if (enemy.checkRight(map)){
+								enemy.setmoveRight();
+								enemyMove = true;
+							}
+						}
+					}
+
+					if (rand() % 2 > 0.5) {
+						if (player_postion.y < enemy.getPosition().y) {
+							if (enemy.checkUp(map)){
+								enemy.setmoveUp();
+								enemyMove = true;
+							}
+						}
+					}
+
+					if (rand() % 2 > 0.5) {
+						if (player_postion.y > enemy.getPosition().y) {
+							if (enemy.checkDown(map)){
+								enemy.setmoveDown();
+								enemyMove = true;
+							}
+						}
+					}
+				} else {
+					if (xd >= 100){
+						switch (rand() % 4){
+						case 0:
+							if (enemy.checkUp(map)){
+								if (rand() % 2 > 0.5) {
+									enemy.setmoveUp();
+									enemyMove = true;
+								}
+							}
+							break;
+						case 1:
+							if (enemy.checkDown(map)){
+								if (rand() % 2 > 0.5) {
+									enemy.setmoveDown();
+									enemyMove = true;
+								}
+							}
+							break;
+						case 2:
+							if (enemy.checkLeft(map)){
+								if (rand() % 2 > 0.5) {
+									enemy.setmoveLeft();
+									enemyMove = true;
+								}
+							}
+							break;
+						case 3:
+							if (enemy.checkRight(map)){
+								if (rand() % 2 > 0.5) {
+									enemy.setmoveRight();
+									enemyMove = true;
+								}
+							}
+							break;
+						}
+					}
+					
+				}
+
+				//if (enemyMove ==true){
+					enemy.move();
+				//}
+				//else{
+				//	enemy.stop();
+				//}
+				//enemy.setmoveUp();
+				
+				enemy.draw(window);
+			}
+			if (xd >= 100){
+				xd = 0;
 			}
 			pl.draw(window);
+			//for (auto enemy : enemies){
+			//	enemy.draw(window);
+			//}
 			drawUpdates(window);
 
 			// drawing mask for teleport
@@ -259,6 +377,22 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 		return;
 	}
 	else{
+		if (lifes_ <= 0) {
+			sf::Text lost;
+
+			lost.setString("YOU LOST!");
+			lost.setFillColor(sf::Color::Yellow);
+			lost.setCharacterSize(150);
+			lost.setFont(font);
+			lost.setPosition(sf::Vector2f(MAP_OFFSET_X, MAP_OFFSET_Y + 4 * MAP_PIXELS_SIZE));
+
+			logic.startClock();
+			while (logic.getElapsedTime() <= 2.f){
+				window.clear();
+				window.draw(lost);
+				window.display();
+			}
+		}
 		sf::Text ending, input;
 		sf::String nick;
 		ending.setString("Enter Your Nickname: ");
