@@ -1,34 +1,299 @@
 #include "stdafx.h"
 #include "GameLogic.h"
 
-void GameLogic::enemyLogic(sf::RenderWindow& window, Player& player, std::vector<Enemy>& enemies, sf::Event& event, std::vector<Map>& map){
-	std::random_device rd{};
-	std::mt19937 engine{ rd() };
-	std::uniform_real_distribution<> dist(0.0, 1.0);
 
-	for (auto enemy : enemies){
-		//if (enemy.checkUp(map)){
-		//	if (dist(engine) > 0.5) {
-		//		enemy.setmoveUp();
-		//	}
-		//}
-		//else if (enemy.checkDown(map)){
-		//	if (dist(engine) > 0.5) {
-		//		enemy.setmoveDown();
-		//	}
-		//}
-		//else if (enemy.checkLeft(map)){
-		//	if (dist(engine) > 0.5) {
-		//		enemy.setmoveLeft();
-		//	}
-		//}
-		//else {
-		//	if (dist(engine) > 0.5) {
-		//		enemy.setmoveRight();
-		//	}
-		//}
-		enemy.setmoveUp();
-		enemy.move();
+void GameLogic::teleportLogic(std::vector<Map>& teleport, Player& pl,std::vector<Enemy>& enemies){
+	if (pl.doesCollide(teleport[0].getShape())){
+		pl.setPosition(18.f, 9.f);
+		pl.setmoveLeft();
+	}
+	else if (pl.doesCollide(teleport[1].getShape())) {
+		pl.setPosition(0.f, 9.f);
+		pl.setmoveRight();
+	}
+
+	for (int i = 0; i < enemies.size();i++) {
+		if (enemies[i].doesCollide(teleport[0].getShape())){
+			enemies[i].setPosition(18.f, 9.f);
+			enemies[i].setmoveLeft();
+			enemies[i].startClock();
+		}
+		else if (enemies[i].doesCollide(teleport[1].getShape())) {
+			enemies[i].setPosition(0.f, 9.f);
+			enemies[i].setmoveRight();
+			enemies[i].startClock();
+		}
+	}
+
+}
+
+int GameLogic::pointsLogic(sf::RenderWindow& window, std::vector<Point>* points, Player* pl, std::vector<Enemy>* enemies){
+	for (auto it = points->begin(); it < points->end();) {
+
+		if (pl->doesCollide(it->getShape()) && it->getPower() == SpecialPower::SLOW_EAT_ENEMY) {
+			pl->setPower(SpecialPower::SLOW_EAT_ENEMY);
+			setValidPower(true);
+			startClock();
+			for (auto& obj : *enemies){
+				obj.changeColor(sf::Color::Red);
+			}
+			it = points->erase(it);
+			return 200;
+		}
+		else if (pl->doesCollide(it->getShape()) && it->getPower() == SpecialPower::NONE){
+			it = points->erase(it);
+			return 100;
+		}
+		else{
+			it->draw(window);
+			++it;
+		}
+		
+	}
+	return 0;
+}
+
+void GameLogic::enemyCollision(std::vector<Enemy>& enemies, Player& pl,int& lifes, int& score){
+	for (auto& obj : enemies) {
+		if (pl.getBody().getGlobalBounds().intersects(obj.getBody().getGlobalBounds()) && pl.getPower() == SpecialPower::NONE) {
+			lifes -= 1;
+			pl.setPosition(9, 14);
+			if (lifes <= 0) {
+				setPause(true);
+				setExit(true);
+			}
+		}
+		else if (pl.getBody().getGlobalBounds().intersects(obj.getBody().getGlobalBounds()) && pl.getPower() == SpecialPower::SLOW_EAT_ENEMY){
+			score += 300;
+			obj.setPosition(9, 9);
+		}
+
+		if (getElapsedTime() > POWER_VALIDATION_TIME && getValidPower()) {
+			pl.setPower(SpecialPower::NONE);
+			setValidPower(false);
+			for (auto& obj : enemies){
+				obj.changeColor(sf::Color::White);
+			}
+		}
+	}
+}
+
+void GameLogic::enemyLogic(sf::RenderWindow& window, Player& player, std::vector<Enemy>& enemies, std::vector<Map>& map,const int& xd){
+	bool enemyMove = false;
+	for (auto& enemy : enemies) {
+		if (enemy.getElapsedTime() < AFTER_TELEPORT_TIME) {
+			enemy.move();
+			enemy.draw(window);
+			continue;
+		}
+		else{
+			enemyMove = false;
+			sf::Vector2f player_postion = player.getPosition();
+			if (player.getPower() == SpecialPower::NONE){
+				if (rand() % 2 > 0.5){
+
+
+					if (rand() % 2 > 0.5) {
+						if (player_postion.x < enemy.getPosition().x) {
+							if (enemy.checkLeft(map)){
+								enemy.setmoveLeft();
+								enemyMove = true;
+							}
+							else {
+								enemy.setWantLeft(true);
+								enemy.setWantRight(false);
+								enemy.setWantDown(false);
+								enemy.setWantUp(false);
+							}
+						}
+					}
+
+					if (rand() % 2 > 0.5) {
+						if (player_postion.x > enemy.getPosition().x) {
+							if (enemy.checkRight(map)){
+								enemy.setmoveRight();
+								enemyMove = true;
+							}
+							else {
+								enemy.setWantLeft(false);
+								enemy.setWantRight(true);
+								enemy.setWantDown(false);
+								enemy.setWantUp(false);
+							}
+						}
+					}
+
+					if (rand() % 2 > 0.5) {
+						if (player_postion.y < enemy.getPosition().y) {
+							if (enemy.checkUp(map)){
+								enemy.setmoveUp();
+								enemyMove = true;
+							}
+							else {
+								enemy.setWantLeft(false);
+								enemy.setWantRight(false);
+								enemy.setWantDown(false);
+								enemy.setWantUp(true);
+							}
+						}
+					}
+
+					if (rand() % 2 > 0.5) {
+						if (player_postion.y > enemy.getPosition().y) {
+							if (enemy.checkDown(map)){
+								enemy.setmoveDown();
+								enemyMove = true;
+							}
+							else {
+								enemy.setWantLeft(false);
+								enemy.setWantRight(false);
+								enemy.setWantDown(true);
+								enemy.setWantUp(false);
+							}
+						}
+					}
+				}
+				else {
+					if (xd >= 75){
+						switch (rand() % 4){
+						case 0:
+							if (enemy.checkUp(map)){
+								if (rand() % 2 > 0.5) {
+									enemy.setmoveUp();
+									enemyMove = true;
+								}
+							}
+							break;
+						case 1:
+							if (enemy.checkDown(map)){
+								if (rand() % 2 > 0.5) {
+									enemy.setmoveDown();
+									enemyMove = true;
+								}
+							}
+							break;
+						case 2:
+							if (enemy.checkLeft(map)){
+								if (rand() % 2 > 0.5) {
+									enemy.setmoveLeft();
+									enemyMove = true;
+								}
+							}
+							break;
+						case 3:
+							if (enemy.checkRight(map)){
+								if (rand() % 2 > 0.5) {
+									enemy.setmoveRight();
+									enemyMove = true;
+								}
+							}
+							break;
+						}
+					}
+
+				}
+			}
+			else if (player.getPower() == SpecialPower::SLOW_EAT_ENEMY){
+				if (rand() % 2 > 0.5) {
+					if (player_postion.x < enemy.getPosition().x) {
+						if (enemy.checkLeft(map)){
+							enemy.setmoveRight();
+							enemyMove = true;
+						}
+						else {
+							enemy.setWantLeft(false);
+							enemy.setWantRight(true);
+							enemy.setWantDown(false);
+							enemy.setWantUp(false);
+						}
+					}
+				}
+
+				if (rand() % 2 > 0.5) {
+					if (player_postion.x > enemy.getPosition().x) {
+						if (enemy.checkRight(map)){
+							enemy.setmoveLeft();
+							enemyMove = true;
+						}
+						else {
+							enemy.setWantLeft(true);
+							enemy.setWantRight(false);
+							enemy.setWantDown(false);
+							enemy.setWantUp(false);
+						}
+					}
+				}
+
+				if (rand() % 2 > 0.5) {
+					if (player_postion.y < enemy.getPosition().y) {
+						if (enemy.checkUp(map)){
+							enemy.setmoveDown();
+							enemyMove = true;
+						}
+						else {
+							enemy.setWantLeft(false);
+							enemy.setWantRight(false);
+							enemy.setWantDown(true);
+							enemy.setWantUp(false);
+						}
+					}
+				}
+
+				if (rand() % 2 > 0.5) {
+					if (player_postion.y > enemy.getPosition().y) {
+						if (enemy.checkDown(map)){
+
+							enemy.setmoveUp();
+							enemyMove = true;
+						}
+						else {
+							enemy.setWantLeft(false);
+							enemy.setWantRight(false);
+							enemy.setWantDown(false);
+							enemy.setWantUp(true);
+						}
+					}
+				}
+
+				if (enemyMove == false) {
+					if (xd >= 75){
+						if (enemy.checkUp(map)) {
+							enemy.setmoveUp();
+						}
+						else if (enemy.checkLeft(map)) {
+							enemy.setmoveLeft();
+						}
+						else if (enemy.checkDown(map)) {
+							enemy.setmoveDown();
+						}
+						else if (enemy.checkRight(map)) {
+							enemy.setmoveRight();
+						}
+						else{}
+					}
+
+				}
+
+			}
+			else{}
+
+			if (enemy.checkRight(map) && enemy.getWantRight()) {
+				enemy.setmoveRight();
+			}
+			else if (enemy.checkLeft(map) && enemy.getWantLeft()) {
+				enemy.setmoveLeft();
+			}
+			else if (enemy.checkUp(map) && enemy.getWantUp()) {
+				enemy.setmoveUp();
+			}
+			else if (enemy.checkDown(map) && enemy.getWantDown()) {
+				enemy.setmoveDown();
+			}
+			else {}
+
+			enemy.move();
+			enemy.draw(window);
+		}
 	}
 }
 

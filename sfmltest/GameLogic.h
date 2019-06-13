@@ -99,7 +99,15 @@ public:
 		\param map aktualna mapa rozgrywki*/
 	void playerLogic(sf::RenderWindow& window, Player& player, sf::Event& event, std::vector<Map>& map);
 
-	void enemyLogic(sf::RenderWindow& window, Player& player, std::vector<Enemy>& enemies, sf::Event& event, std::vector<Map>& map);
+	void enemyLogic(sf::RenderWindow& window, Player& player, std::vector<Enemy>& enemies, std::vector<Map>& map, const int& xd);
+
+	void enemyCollision(std::vector<Enemy>& enemies, Player& pl, int& lifes, int& score);
+
+	void teleportLogic(std::vector<Map>& teleport, Player& pl, std::vector<Enemy>& enemies);
+
+
+	//test
+	inline int pointsLogic(sf::RenderWindow& window,std::vector<Point>* points, Player* pl, std::vector<Enemy>* enemies);
 
 	//! Funkcja logiki przerwy
 	/*! Funkcja odpowiedzialna jest za zastopowanie rozgrywki. W czasie pauzy, w obrêbie rozgrywi nie nastêpuje zmiana.

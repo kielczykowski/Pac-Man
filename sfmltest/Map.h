@@ -38,6 +38,7 @@ public:
 	//! Funkcja zwracaj¹ca wektor mapy
 	/*! Funkcja zwracaj¹ca wektor elementów klasy potrzebny do stworzenia mapy rozgrywki*/
 	static std::vector<Map> stage1(sf::RenderWindow& window);
+ 
 
 	
 };

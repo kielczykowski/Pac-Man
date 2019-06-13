@@ -10,8 +10,10 @@ W pliku napisana jest klasa, która opisuj¹ca atrybuty oraz metody jakie posiada 
 //! Klasa Przeciwnika.
 /*! Klasa opisuj¹ca atrybuty oraz metody, które unikalnie posiada przeciwnik. Klasa dziedziczy po klasie GameObject.
 \sa GameObject*/
-class Enemy : public GameObject
+class Enemy : public Player
 {
+private: 
+	sf::Clock clock_;
 public:
 	//! Konstruktor klasy przeciwnika.
 	/*! Konstruktor wpisuje wartoœci pocz¹tkowe podczas tworzenia obiektu przeciwnika zgodnie z parametrami okreœlonymi jako argumenty funckji.
@@ -34,5 +36,8 @@ public:
 	void changeColor(const sf::Color& color);
 	
 	//void update(sf::RenderWindow& window, sf::Event& event, std::vector<Map>& map) override;
+
+	void startClock();
+	float getElapsedTime();
 };
 

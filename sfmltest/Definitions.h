@@ -95,6 +95,8 @@
 #define MAP_OFFSET_Y			75
 #define POWER_VALIDATION_TIME	10
 
+#define AFTER_TELEPORT_TIME		0.5
+
 enum class SpecialPower {
 	NONE,
 	SLOW_EAT_ENEMY

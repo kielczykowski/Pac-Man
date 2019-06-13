@@ -61,6 +61,12 @@ public:
 		\param value wartoœæ punktów dodawanych. mM¿e byæ ujemna lub dodatnia.*/
 	void updateScore(int&& value = 100);
 
+	void endSign(const std::string& str, sf::RenderWindow& window, sf::Font& font, GameLogic& logic);
+
+	void endResult(sf::RenderWindow& window, sf::Event event, sf::Font* font, GameLogic& logic, Highscore& hgh);
+
+	void drawMap(std::vector<Map>& map, sf::RenderWindow& window, Player& pl, std::vector<Enemy>& enemies);
+
 	//! Funkcja usuwaj¹ca ¿ycia
 	/*! Funkcja odejmuje, zycie o okreœlon¹ watoœæ, gdy gracz zmierzy siê z przeciwnikiem bez supermocy.
 		\param value  wartoœæ, o któr¹ odejmowane s¹ ¿ycia*/

@@ -2,7 +2,7 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy(sf::RenderWindow& window, sf::String path, sf::Vector2f& position, float speed) : GameObject(window, path, position, speed)
+Enemy::Enemy(sf::RenderWindow& window, sf::String path, sf::Vector2f& position, float speed) : Player(window, path, position, speed)
 {
 	std::cout << "enemy" << std::endl;
 }
@@ -18,4 +18,11 @@ Enemy::~Enemy()
 
 void Enemy::changeColor(const sf::Color& color){
 		body_.setColor(color);
+}
+
+void Enemy::startClock(){
+	clock_.restart();
+}
+float Enemy::getElapsedTime(){
+	return clock_.getElapsedTime().asSeconds();
 }

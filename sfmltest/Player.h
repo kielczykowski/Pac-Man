@@ -17,6 +17,8 @@ private:
 		\sa SpecialPower*/
 	SpecialPower power_;
 
+protected:
+
 	//! Atrybut œledzenia intencij gracza
 	/*! Atrybut zapamiêtuj¹cy intencje gracza. Gdy gracz nie ma mo¿liwoœci skrêtu w górê, atrybut posiada wartoœæ true.
 	W momencie, gdy mo¿liwy jest ruch w danym kierunku zmienna osi¹ga wartoœæ false i nastêpuje zmiana kierunku poruszania gracza.*/

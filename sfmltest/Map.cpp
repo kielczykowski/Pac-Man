@@ -68,6 +68,8 @@ std::vector<Map> Map::stage1(sf::RenderWindow& window)  {
 	return objects;
 }
 
+
+
 sf::RectangleShape Map::getShape() const {
 	return this->shape_;
 }

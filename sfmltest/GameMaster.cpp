@@ -132,7 +132,7 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 		Map(window, sf::Vector2f(0, 9), sf::Vector2f(2, 1), sf::Color::Black) };
 
 	//teleport 
-	std::vector<Map> teleport{ Map(window, sf::Vector2f(-1, 9), sf::Vector2f(1, 1), sf::Color::White),
+	std::vector<Map> teleport{ Map(window, sf::Vector2f(-1, 9), sf::Vector2f(1, 1), sf::Color::Black),
 		Map(window, sf::Vector2f(19, 9), sf::Vector2f(1, 1), sf::Color::White) };
 
 	//creating player sprite
@@ -140,8 +140,8 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 
 	//creating Enemies
 	std::vector<Enemy> enemies{ Enemy(window, "./sprites/special.jpg", sf::Vector2f(8,9)),
-		Enemy(window, "./sprites/special.jpg", sf::Vector2f(9,9)),
-		Enemy(window, "./sprites/special.jpg", sf::Vector2f(10,9)) };
+		Enemy(window, "./sprites/special.jpg", sf::Vector2f(9, 9)),
+		Enemy(window, "./sprites/special.jpg", sf::Vector2f(10, 9)) };
 
 	//TODO
 
@@ -159,49 +159,33 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 		window.clear();
 
 		if (!logic.getPause()) {
-			//Player test
-			//float currTime = clock.getElapsedTime().asSeconds();
-			//if (currTime >= nextTime) {
-			//	nextTime += delta;
 			window.clear();
 			window.draw(background);
 
 			//map drawing
-			for (auto& obj : map) {
-				obj.draw(window);
-				if (pl.doesCollide(obj.getShape()))
-					pl.stop();
-
-				for (int i = 0; i < 3; i++) {
-					if (enemies[i].doesCollide(obj.getShape()))
-					{
-						enemies[i].stop();
-					}
-				}
-			}
+			drawMap(map, window, pl, enemies);
 
 			//teleport handling
-			if (pl.doesCollide(teleport[0].getShape())){
-				pl.setPosition(18.f, 9.f);
-				pl.setmoveLeft();
-			}
-			else if (pl.doesCollide(teleport[1].getShape())) {
-				pl.setPosition(0.f, 9.f);
-				pl.setmoveRight();
-			}
+			//for (auto enemy : enemies) {
+			//	if (enemy.doesCollide(teleport[0].getShape())){
+			//		enemy.setPosition(18.f, 9.f);
+			//		enemy.setmoveLeft();
+			//	}
+			//	else if (pl.doesCollide(teleport[1].getShape())) {
+			//		enemy.setPosition(0.f, 9.f);
+			//		enemy.setmoveRight();
+			//	}
+			//}
 
 			//points drawing + handling
 			for (auto it = points.begin(); it < points.end();) {
 
 				if (pl.doesCollide(it->getShape()) && it->getPower() == SpecialPower::SLOW_EAT_ENEMY) {
 					pl.setPower(SpecialPower::SLOW_EAT_ENEMY);
-					//OBJECT INTERSECTION PROBLEM
-					//pl.setSpeed(0.8f);
 					logic.setValidPower(true);
 					logic.startClock();
 					for (auto& obj : enemies){
 						obj.changeColor(sf::Color::Red);
-					//	obj.setSpeed(0.5f);
 					}
 					it = points.erase(it);
 					updateScore(200);
@@ -215,161 +199,45 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 				}
 			}
 
+			//logic.pointsLogic(window, &points, &pl, &enemies);
+
 
 			//enemies collision
-			for (auto& obj: enemies) {
-				if (pl.getBody().getGlobalBounds().intersects(obj.getBody().getGlobalBounds()) && pl.getPower() == SpecialPower::NONE) {
-					lifes_ -= 1;
-					pl.setPosition(9, 14);
-					if (lifes_ <= 0) {
-						logic.setPause(true);
-						logic.setExit(true);
-					}
-				}
-				else if (pl.getBody().getGlobalBounds().intersects(obj.getBody().getGlobalBounds()) && pl.getPower() == SpecialPower::SLOW_EAT_ENEMY){
-					score_ += 300;
-					obj.setPosition(9, 9);
-				}
-
-				if (logic.getElapsedTime() > POWER_VALIDATION_TIME && logic.getValidPower()) {
-					pl.setPower(SpecialPower::NONE);
-					//pl.setSpeed(1.0f);
-					logic.setValidPower(false);
-					for (auto& obj : enemies){
-						obj.changeColor(sf::Color::White);
-					//	obj.setSpeed(0.8f);
-					}
-				}
-			}
+			logic.enemyCollision(enemies, pl, lifes_, score_);
 
 			//player actions + drawing
-			//pl.update(window, event, map);
 			logic.playerLogic(window, pl, event, map);
-		//	logic.enemyLogic(window, pl, enemies,event, map);
-			//enemies.at(1).setmoveUp();
-			//enemies.at(1).move();
-			for (auto& enemy : enemies) {
-				enemyMove = false;
-				
-				if (rand() % 2 > 0.5){
-					sf::Vector2f player_postion = pl.getPosition();
 
-					if (rand() % 2 > 0.5) {
-						if (player_postion.x < enemy.getPosition().x) {
-							if (enemy.checkLeft(map)){
-								enemy.setmoveLeft();
-								enemyMove = true;
-							}
-						}
-					}
 
-					if (rand() % 2 > 0.5) {
-						if (player_postion.x > enemy.getPosition().x) {
-							if (enemy.checkRight(map)){
-								enemy.setmoveRight();
-								enemyMove = true;
-							}
-						}
-					}
-
-					if (rand() % 2 > 0.5) {
-						if (player_postion.y < enemy.getPosition().y) {
-							if (enemy.checkUp(map)){
-								enemy.setmoveUp();
-								enemyMove = true;
-							}
-						}
-					}
-
-					if (rand() % 2 > 0.5) {
-						if (player_postion.y > enemy.getPosition().y) {
-							if (enemy.checkDown(map)){
-								enemy.setmoveDown();
-								enemyMove = true;
-							}
-						}
-					}
-				} else {
-					if (xd >= 100){
-						switch (rand() % 4){
-						case 0:
-							if (enemy.checkUp(map)){
-								if (rand() % 2 > 0.5) {
-									enemy.setmoveUp();
-									enemyMove = true;
-								}
-							}
-							break;
-						case 1:
-							if (enemy.checkDown(map)){
-								if (rand() % 2 > 0.5) {
-									enemy.setmoveDown();
-									enemyMove = true;
-								}
-							}
-							break;
-						case 2:
-							if (enemy.checkLeft(map)){
-								if (rand() % 2 > 0.5) {
-									enemy.setmoveLeft();
-									enemyMove = true;
-								}
-							}
-							break;
-						case 3:
-							if (enemy.checkRight(map)){
-								if (rand() % 2 > 0.5) {
-									enemy.setmoveRight();
-									enemyMove = true;
-								}
-							}
-							break;
-						}
-					}
-					
-				}
-
-				//if (enemyMove ==true){
-					enemy.move();
-				//}
-				//else{
-				//	enemy.stop();
-				//}
-				//enemy.setmoveUp();
-				
-				enemy.draw(window);
-			}
-			if (xd >= 100){
+			//enemy actions
+			logic.enemyLogic(window, pl, enemies, map, xd);
+			if (xd >= 75){
 				xd = 0;
 			}
+
+			//teleport logic
+			logic.teleportLogic(teleport, pl, enemies);
+
 			pl.draw(window);
-			//for (auto enemy : enemies){
-			//	enemy.draw(window);
-			//}
 			drawUpdates(window);
 
 			// drawing mask for teleport
-			mask[0].draw(window);
-			mask[1].draw(window);
-			//} else{
-			//	int sleepTime = (int)(1000.0 * (nextTime - currTime));
-			//	if (sleepTime > 0) {
-			//		Sleep(sleepTime);
-			//	}
-			//}
+			//mask[0].draw(window);
+			//mask[1].draw(window);
 
-
+			teleport[0].draw(window);
+			teleport[1].draw(window);
+			//winning game situation
+			if (points.empty()) {
+				logic.setExit(true);
+				logic.setPause(true);
+			}
 		}
 		else {
-			//sf::String pause;
-			//do something if pause is clicked ( Display PAUSE, Enter to continue, escape to exit game
-			//std::cout << "Przerwa" << std::endl;
 			window.clear();
 			window.draw(pause);
 			window.draw(pause_contiunation);
 			logic.pausedGameLogic(window, event);
-			//hgh.printHighscores();
-
 		}
 		window.display();
 	}
@@ -377,49 +245,79 @@ void GameMaster::main(sf::RenderWindow& window, sf::Event& event, Highscore& hgh
 		return;
 	}
 	else{
+		//lost game
 		if (lifes_ <= 0) {
-			sf::Text lost;
+			endSign("YOU LOST!",window,font,logic);
+		}
+		//won game
+		else  if(points.empty()){
+			endSign("YOU WON!",window,font,logic);
+		}
+		else{}
+		endResult(window, event, &font, logic, hgh);
+	}
+}
 
-			lost.setString("YOU LOST!");
-			lost.setFillColor(sf::Color::Yellow);
-			lost.setCharacterSize(150);
-			lost.setFont(font);
-			lost.setPosition(sf::Vector2f(MAP_OFFSET_X, MAP_OFFSET_Y + 4 * MAP_PIXELS_SIZE));
+void GameMaster::endSign(const std::string& str, sf::RenderWindow& window,sf::Font& font,GameLogic& logic){
+	sf::Text lost;
 
-			logic.startClock();
-			while (logic.getElapsedTime() <= 2.f){
-				window.clear();
-				window.draw(lost);
-				window.display();
+	lost.setString(str);
+	lost.setFillColor(sf::Color::Yellow);
+	lost.setCharacterSize(150);
+	lost.setFont(font);
+	lost.setPosition(sf::Vector2f(MAP_OFFSET_X, MAP_OFFSET_Y + 4 * MAP_PIXELS_SIZE));
+
+	logic.startClock();
+	while (logic.getElapsedTime() <= 2.f){
+		window.clear();
+		window.draw(lost);
+		window.display();
+	}
+}
+
+void GameMaster::endResult(sf::RenderWindow& window,sf::Event event, sf::Font* font, GameLogic& logic, Highscore& hgh){
+	sf::Text ending, input;
+	sf::String nick;
+	ending.setString("Enter Your Nickname: ");
+	ending.setFillColor(sf::Color::Yellow);
+	ending.setCharacterSize(50);
+	ending.setFont(*font);
+	ending.setPosition(sf::Vector2f(MAP_OFFSET_X, MAP_OFFSET_Y + 2 * MAP_PIXELS_SIZE));
+
+	input.setFillColor(sf::Color::Yellow);
+	input.setCharacterSize(25);
+	input.setFont(*font);
+	input.setPosition(sf::Vector2f(MAP_OFFSET_X, MAP_OFFSET_Y + 5 * MAP_PIXELS_SIZE));
+
+	while (!logic.getSaveScore()){
+		window.clear();
+		logic.afterGameLogic(window, event, nick);
+		input.setString(nick);
+		window.draw(ending);
+		window.draw(input);
+		window.display();
+	}
+	////EMPTY STRING PROBLEM
+	//std::string s = nick.toAnsiString();
+	//std::cout << s;
+	//if (s != "\n" || s!="") {
+	hgh.addHighscores(nick, score_);
+	hgh.saveHighscores();
+	//}
+}
+
+void GameMaster::drawMap(std::vector<Map>& map,sf::RenderWindow& window,Player& pl,std::vector<Enemy>& enemies){
+	for (auto& obj : map) {
+		obj.draw(window);
+		if (pl.doesCollide(obj.getShape()))
+			pl.stop();
+
+		for (int i = 0; i < 3; i++) {
+			if (enemies[i].doesCollide(obj.getShape()))
+			{
+				enemies[i].stop();
 			}
 		}
-		sf::Text ending, input;
-		sf::String nick;
-		ending.setString("Enter Your Nickname: ");
-		ending.setFillColor(sf::Color::Yellow);
-		ending.setCharacterSize(50);
-		ending.setFont(font);
-		ending.setPosition(sf::Vector2f(MAP_OFFSET_X, MAP_OFFSET_Y + 2 * MAP_PIXELS_SIZE));
-
-		input.setFillColor(sf::Color::Yellow);
-		input.setCharacterSize(25);
-		input.setFont(font);
-		input.setPosition(sf::Vector2f(MAP_OFFSET_X, MAP_OFFSET_Y + 5 * MAP_PIXELS_SIZE));
-
-		while (!logic.getSaveScore()){
-			window.clear();
-			logic.afterGameLogic(window, event, nick);
-			input.setString(nick);
-			window.draw(ending);
-			window.draw(input);
-			window.display();
-		}
-		////EMPTY STRING PROBLEM
-		//std::string s = nick.toAnsiString();
-		//std::cout << s;
-		//if (s != "\n" || s!="") {
-			hgh.addHighscores(nick, score_);
-			hgh.saveHighscores();
-		//}
 	}
+
 }
